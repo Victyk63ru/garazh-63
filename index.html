@@ -37,7 +37,7 @@
   });
 </script>
 
-<script type="text/babel" data-presets="react">
+<script id="app-source" type="text/plain">
 const { useState } = React;
 
 function ChevronLeft({ size = 24, color = "currentColor" }) {
@@ -793,6 +793,26 @@ try {
 } catch (e) {
   console.error(e);
 }
+</script>
+
+<script>
+  (function () {
+    var src = document.getElementById('app-source').textContent;
+    var loadingEl = document.getElementById('loading');
+    try {
+      var out = Babel.transform(src, { presets: ['react'] }).code;
+      (0, eval)(out);
+      var root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(React.createElement(GarazhPrototype));
+      if (loadingEl) loadingEl.remove();
+    } catch (e) {
+      var box = document.getElementById('err-box');
+      box.style.display = 'block';
+      box.textContent = 'Ошибка запуска:\n' + (e.stack || e.message);
+      if (loadingEl) loadingEl.remove();
+      console.error(e);
+    }
+  })();
 </script>
 
 <script>
