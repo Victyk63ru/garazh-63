@@ -799,18 +799,37 @@ try {
   (function () {
     var src = document.getElementById('app-source').textContent;
     var loadingEl = document.getElementById('loading');
-    try {
-      var out = Babel.transform(src, { presets: ['react'] }).code;
-      (0, eval)(out);
-      var root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(React.createElement(GarazhPrototype));
-      if (loadingEl) loadingEl.remove();
-    } catch (e) {
+    function showError(e) {
       var box = document.getElementById('err-box');
       box.style.display = 'block';
-      box.textContent = 'Ошибка запуска:\n' + (e.stack || e.message);
+      var name = (e && e.name) ? e.name : 'Error';
+      var msg = (e && e.message) ? e.message : String(e);
+      var stack = (e && e.stack) ? e.stack : '';
+      box.textContent = 'Ошибка запуска:\n' + name + ': ' + msg + '\n\n' + stack;
       if (loadingEl) loadingEl.remove();
       console.error(e);
+    }
+    try {
+      var out = Babel.transform(src, { presets: ['react'] }).code;
+      var blob = new Blob([out], { type: 'text/javascript' });
+      var url = URL.createObjectURL(blob);
+      var script = document.createElement('script');
+      script.src = url;
+      script.onload = function () {
+        try {
+          var root = ReactDOM.createRoot(document.getElementById('root'));
+          root.render(React.createElement(GarazhPrototype));
+          if (loadingEl) loadingEl.remove();
+        } catch (e) {
+          showError(e);
+        }
+      };
+      script.onerror = function () {
+        showError(new Error('Не удалось загрузить скомпилированный скрипт (script.onerror).'));
+      };
+      document.body.appendChild(script);
+    } catch (e) {
+      showError(e);
     }
   })();
 </script>
