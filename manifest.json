@@ -1,7 +1,7 @@
 {
   "name": "Гараж",
   "short_name": "Гараж",
-  "description": "Приложение мастерской «Гараж» — прототип для теста",
+  "description": "Приложение детской мастерской «Гараж»",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

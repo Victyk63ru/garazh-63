@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-title" content="Гараж" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Гараж — прототип</title>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<title>Гараж</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.28.4/babel.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   html, body { margin: 0; padding: 0; background: #2A2620; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
@@ -20,21 +20,27 @@
   #root { min-height: 100vh; }
   #loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #2A2620; color: #F7F5F2; font-family: -apple-system, sans-serif; font-size: 14px; z-index: 9999; }
   #err-box { position: fixed; inset: 0; background: #fff; color: #b00; font: 12px monospace; padding: 16px; overflow: auto; white-space: pre-wrap; z-index: 99999; display: none; }
+  #offline-banner { position: fixed; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 9998; background: #141215; color: #fff; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 7px 12px; font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; box-shadow: 0 8px 24px rgba(0,0,0,.25); display: none; }
 </style>
 </head>
 <body>
 <div id="loading">Загрузка «Гаража»…</div>
 <div id="err-box"></div>
 <div id="root"></div>
+<div id="offline-banner">Нет сети · работает сохранённая версия</div>
 
 <script>
-  window.addEventListener('error', function (e) {
+  function showFatalError(error) {
     var box = document.getElementById('err-box');
+    if (!box) return;
     box.style.display = 'block';
-    box.textContent = 'Ошибка запуска:\n' + (e.error ? (e.error.stack || e.error.message) : e.message);
+    var text = error && (error.stack || error.message) ? (error.stack || error.message) : String(error || 'Неизвестная ошибка');
+    box.textContent = 'Ошибка запуска «Гаража»:\n' + text;
     var loading = document.getElementById('loading');
     if (loading) loading.remove();
-  });
+  }
+  window.addEventListener('error', function (e) { showFatalError(e.error || e.message); });
+  window.addEventListener('unhandledrejection', function (e) { showFatalError(e.reason); });
 </script>
 
 <script id="app-source" type="text/plain">
@@ -258,6 +264,14 @@ const MEDIA_GALLERY = [
   { emoji: "🖌", caption: "Покраска первого проекта", date: "25 апр" },
 ];
 
+const LESSONS = [
+  { id: "l1", icon: "📏", title: "Разметка", text: "Как пользоваться рулеткой, угольником и карандашом. Точность начинается с разметки." },
+  { id: "l2", icon: "🪚", title: "Пила", text: "Безопасное положение рук, линия реза и главное правило: сначала проверить, потом пилить." },
+  { id: "l3", icon: "🪵", title: "Древесина", text: "Чем отличаются волокна, торец и пласть. Почему дерево может коробиться и трескаться." },
+  { id: "l4", icon: "🧰", title: "Инструменты", text: "Для чего нужны основные ручные инструменты и как возвращать их на место после работы." },
+  { id: "l5", icon: "🦺", title: "Безопасность", text: "Очки, перчатки, порядок на рабочем месте и когда обязательно звать взрослого." },
+];
+
 function ChildHome({ nav, taskDone }) {
   const doneCount = Object.values(taskDone).filter(Boolean).length;
   return (
@@ -290,7 +304,7 @@ function ChildHome({ nav, taskDone }) {
         <HomeTile icon="video" label="Фото/видео" onClick={() => nav.push("child_media")} />
         <HomeTile icon="soobsheniya" label="Новости" onClick={() => nav.push("child_news")} />
         <HomeTile icon="profil" label="Профиль" onClick={() => nav.push("child_profile")} />
-        <HomeTile icon="baza_znaniy" label="Уроки" onClick={() => nav.push("child_news")} />
+        <HomeTile icon="baza_znaniy" label="Уроки" onClick={() => nav.push("child_lessons")} />
       </div>
 
       <div className="text-sm font-bold mb-2" style={{ color: COLORS.ink }}>Уровень {CHILD.level}</div>
@@ -510,6 +524,30 @@ function ChildMedia({ nav }) {
                 <div className="text-[10px]" style={{ color: COLORS.gray }}>{m.date}</div>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function ChildLessons({ nav }) {
+  return (
+    <>
+      <Chrome title="Уроки" onBack={() => nav.pop()} showStatus={false} />
+      <div className="flex-1 overflow-y-auto px-4 py-3" style={{ background: COLORS.bg }}>
+        <div className="text-xs mb-3" style={{ color: COLORS.gray }}>Короткие памятки по работе в мастерской</div>
+        <div className="flex flex-col gap-2">
+          {LESSONS.map((lesson) => (
+            <Card key={lesson.id}>
+              <div className="flex gap-3 items-start">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 text-xl" style={{ background: "#F0E8DC" }}>{lesson.icon}</div>
+                <div>
+                  <div className="text-sm font-bold mb-1" style={{ color: COLORS.ink }}>{lesson.title}</div>
+                  <div className="text-xs leading-relaxed" style={{ color: COLORS.gray }}>{lesson.text}</div>
+                </div>
+              </div>
+            </Card>
           ))}
         </div>
       </div>
@@ -738,6 +776,7 @@ function GarazhPrototype() {
     else if (screen === "child_schedule") content = <ChildSchedule nav={childNav} />;
     else if (screen === "child_media") content = <ChildMedia nav={childNav} />;
     else if (screen === "child_news") content = <NewsFeed nav={childNav} />;
+    else if (screen === "child_lessons") content = <ChildLessons nav={childNav} />;
     else if (screen === "child_profile") content = <ChildProfile nav={childNav} projectProgress={projectProgress} />;
     else content = <ChildHome nav={childNav} taskDone={taskDone} />;
   } else {
@@ -784,62 +823,61 @@ function GarazhPrototype() {
   );
 }
 
-
-const loadingEl = document.getElementById('loading');
-try {
-  const root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(<GarazhPrototype />);
-  if (loadingEl) loadingEl.remove();
-} catch (e) {
-  console.error(e);
-}
 </script>
 
 <script>
   (function () {
-    var src = document.getElementById('app-source').textContent;
     var loadingEl = document.getElementById('loading');
-    function showError(e) {
+    function fail(error) {
+      if (window.showFatalError) return window.showFatalError(error);
       var box = document.getElementById('err-box');
-      box.style.display = 'block';
-      var name = (e && e.name) ? e.name : 'Error';
-      var msg = (e && e.message) ? e.message : String(e);
-      var stack = (e && e.stack) ? e.stack : '';
-      box.textContent = 'Ошибка запуска:\n' + name + ': ' + msg + '\n\n' + stack;
+      if (box) {
+        box.style.display = 'block';
+        box.textContent = 'Ошибка запуска «Гаража»:\n' + (error && (error.stack || error.message) ? (error.stack || error.message) : String(error));
+      }
       if (loadingEl) loadingEl.remove();
-      console.error(e);
+      console.error(error);
     }
     try {
-      var out = Babel.transform(src, { presets: ['react'] }).code;
-      var blob = new Blob([out], { type: 'text/javascript' });
-      var url = URL.createObjectURL(blob);
+      if (!window.React) throw new Error('Не загрузился React. Проверьте соединение с интернетом и повторите запуск.');
+      if (!window.ReactDOM || !window.ReactDOM.createRoot) throw new Error('Не загрузился ReactDOM 18. Проверьте соединение с интернетом.');
+      if (!window.Babel) throw new Error('Не загрузился Babel. Проверьте соединение с интернетом.');
+      var source = document.getElementById('app-source');
+      if (!source) throw new Error('Не найден исходный код приложения.');
+      var out = Babel.transform(source.textContent, { presets: ['react'] }).code;
       var script = document.createElement('script');
-      script.src = url;
-      script.onload = function () {
-        try {
-          var root = ReactDOM.createRoot(document.getElementById('root'));
-          root.render(React.createElement(GarazhPrototype));
-          if (loadingEl) loadingEl.remove();
-        } catch (e) {
-          showError(e);
-        }
-      };
-      script.onerror = function () {
-        showError(new Error('Не удалось загрузить скомпилированный скрипт (script.onerror).'));
-      };
+      script.text = out + '\n;window.__GARAZH_APP_READY__ = true;';
       document.body.appendChild(script);
-    } catch (e) {
-      showError(e);
+      if (typeof GarazhPrototype !== 'function') throw new Error('Компонент GarazhPrototype не создан.');
+      var rootNode = document.getElementById('root');
+      if (!rootNode) throw new Error('Не найден контейнер #root.');
+      window.__GARAZH_ROOT__ = ReactDOM.createRoot(rootNode);
+      window.__GARAZH_ROOT__.render(React.createElement(GarazhPrototype));
+      if (loadingEl) loadingEl.remove();
+    } catch (error) {
+      fail(error);
     }
   })();
 </script>
 
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function () {});
-    });
-  }
+  (function () {
+    var banner = document.getElementById('offline-banner');
+    function updateNetworkState() {
+      if (banner) banner.style.display = navigator.onLine ? 'none' : 'block';
+    }
+    window.addEventListener('online', updateNetworkState);
+    window.addEventListener('offline', updateNetworkState);
+    updateNetworkState();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+          .then(function (registration) { registration.update().catch(function () {}); })
+          .catch(function (error) { console.error('Service Worker не зарегистрирован:', error); });
+      });
+    }
+  })();
 </script>
 </body>
 </html>
