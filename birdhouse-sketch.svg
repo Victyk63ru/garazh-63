@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 430">
+  <defs>
+    <filter id="rough"><feTurbulence baseFrequency="0.015" numOctaves="2" seed="8" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8"/></filter>
+    <pattern id="paper" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 2h12M0 9h12" stroke="#D8CDBD" stroke-width=".35" opacity=".22"/></pattern>
+  </defs>
+  <rect width="640" height="430" rx="28" fill="#F3EBDD"/><rect width="640" height="430" rx="28" fill="url(#paper)"/>
+  <g fill="none" stroke="#22201E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)">
+    <path d="M184 177 320 70l138 108"/><path d="M213 173h214v151H213z"/><path d="M180 325h282"/><path d="M253 322v50M391 322v50"/>
+    <path d="M236 195h168v35H236z"/><path d="M255 238h129v84H255z"/><circle cx="321" cy="272" r="23"/>
+    <path d="M206 171 322 92l116 80M223 189l197-1M272 113l-14 65M371 111l15 67"/>
+    <path d="M105 321c20-33 43-36 64-16-22 9-40 21-53 38M114 310l-14-18M137 303l11-24" stroke-width="5"/>
+  </g>
+  <g stroke="#EF7F18" stroke-width="6" stroke-linecap="round"><path d="M220 350h198"/><path d="M230 364h168" opacity=".55"/></g>
+</svg>

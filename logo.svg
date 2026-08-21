@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 440" role="img" aria-labelledby="t d">
+  <title id="t">Гараж — мастерская</title><desc id="d">Графитовый знак с оранжевой геометрической монограммой.</desc>
+  <rect width="360" height="440" rx="18" fill="#171615"/>
+  <text x="180" y="62" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="48" letter-spacing="3" fill="#EF7F18">ГАРАЖ</text>
+  <g fill="#EF7F18">
+    <path d="M58 105h66l-30 88h54l-56 142H36l34-103H38z"/>
+    <path d="M154 105h66l-24 70h52l-25 76h-52l-28 84H78l39-119H66z" opacity=".96"/>
+    <path d="M244 105h70l-33 98h39l-27 81h-40l-17 51h-67l30-92h-35l27-82h36z"/>
+  </g>
+  <path d="M78 311l204-182" stroke="#171615" stroke-width="24" stroke-linecap="square" opacity=".92"/>
+  <text x="180" y="398" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="28" letter-spacing="2" fill="#F5EFE5">МАСТЕРСКАЯ</text>
+</svg>
