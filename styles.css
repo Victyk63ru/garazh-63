@@ -104,12 +104,12 @@ img.role-face{object-fit:cover;background:transparent;border:0}
 .section-head .link-btn{padding:2px 0}
 .grid{display:grid;gap:12px}
 .quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.quick-card{min-height:102px;min-width:0;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:11px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;font-size:11px;font-weight:700}
+.quick-card{min-height:104px;min-width:0;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-size:11px;font-weight:700}
 .shape{width:50px;height:50px;border:1.5px solid #50473d;display:grid;place-items:center;background:#faf5ed;position:relative}
 .shape.circle{border-radius:50%}.shape.square{border-radius:12px}.shape.hex{clip-path:polygon(25% 5%,75% 5%,98% 50%,75% 95%,25% 95%,2% 50%);border:0;background:#4f463d}.shape.hex:before{content:"";position:absolute;inset:2px;clip-path:inherit;background:#faf5ed}.shape.hex>*{position:relative;z-index:1}
 .shape svg{width:25px;height:25px}
 .shape img{width:26px;height:26px;object-fit:contain}
-.icon-badge{width:50px;height:50px;min-width:0;object-fit:contain;display:block}
+.icon-badge{width:66px;height:66px;min-width:0;object-fit:contain;display:block}
 
 /* child home */
 .hello{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 14px}
@@ -117,7 +117,8 @@ img.role-face{object-fit:cover;background:transparent;border:0}
 .notification{position:relative}.notification-dot{position:absolute;right:5px;top:4px;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 2px var(--paper)}
 .current-project{padding:0}
 .project-copy{padding:16px 16px 0}
-.project-art{margin:8px 12px 0;border-radius:18px;overflow:hidden;background:#efe6da}
+.project-art{margin:8px 12px 0;border-radius:18px;overflow:hidden;background:#efe6da;aspect-ratio:1.9/1}
+.project-art img{width:100%;height:100%;object-fit:cover}
 .progress-row{display:flex;align-items:center;gap:10px;margin:10px 0 2px}
 .progress-track{height:7px;border-radius:99px;background:#e8dfd3;overflow:hidden;flex:1}
 .progress-fill{height:100%;border-radius:inherit;background:var(--orange);transition:width .3s ease}
