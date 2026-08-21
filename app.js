@@ -150,6 +150,10 @@ function render(){
   const r=route();
   document.documentElement.dataset.route=r;
   if(!state.session && !['#/welcome','#/login','#/register','#/qr'].includes(r)) return go('#/welcome');
+  if(state.session){
+    const routeRole=r.split('/')[1];
+    if(['child','parent','master'].includes(routeRole) && routeRole!==state.session.role) return go(`#/${state.session.role}/home`);
+  }
   const pages={
     '#/welcome':welcomePage,
     '#/login':loginPage,
@@ -319,7 +323,7 @@ function childCreate(){
 
 function parentHome(){
   const p=state.project;
-  return shell(`<div class="page"><div class="hello"><div class="hello-left"><div class="avatar"></div><div><div class="small muted">Ребёнок</div><div class="h2">${state.child.name}</div><div class="small muted">${state.child.age} лет · ${state.child.group}</div></div></div></div>
+  return shell(`<div class="page"><div class="hello"><div class="hello-left"><div class="avatar"></div><div><div class="small muted">Ребёнок</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
     <div class="dashboard-grid"><section><div class="card"><div class="section-head"><div><div class="eyebrow">Прогресс за месяц</div><div class="h2">+24%</div></div><span class="badge">Растёт</span></div><div class="bar-chart">${[26,34,42,48,63,78].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div></div>
       <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow('project','Завершил проект','Кормушка для птиц','12 мая')}${eventRow('trophy','Получил шеврон','«Столяр»','10 мая')}${eventRow('tool','Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
       <section><div class="card"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="hero-sketch"><img src="./birdhouse-sketch.svg" alt=""></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><b>${p.progress}%</b></div></div><div class="section metric-row"><div class="metric"><strong>8</strong><span>занятий</span></div><div class="metric"><strong>3</strong><span>работы</span></div><div class="metric"><strong>4</strong><span>шеврона</span></div></div></section></div>
@@ -333,7 +337,7 @@ function parentSettings(){ return shell(`<div class="page"><h1 class="h1">Нас
 const STUDENTS=[{name:'Миша',project:'Кормушка для птиц',progress:70},{name:'Варя',project:'Полка',progress:40},{name:'Артём',project:'Ящик',progress:100},{name:'Саша',project:'Подставка',progress:66}];
 function masterHome(){
   return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Мастер</div><h1 class="h1">Группа 2</h1></div><button class="btn primary small-btn" data-action="new-task">+ Новое задание</button></div><div class="card flat section">${STUDENTS.map(s=>`<div class="student-row"><div class="avatar"></div><div><strong>${s.name}</strong><div class="small muted">${s.project}</div></div><div class="student-progress"><div class="small" style="text-align:right;font-weight:800">${s.progress}%</div><div class="progress-track"><div class="progress-fill" style="width:${s.progress}%;background:${s.progress===100?'var(--green)':'var(--orange)'}"></div></div></div></div>`).join('')}</div>
-    ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow('clipboard',t.title,t.group,'сейчас')).join('')}</div></div>`:''}
+    ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow('clipboard',escapeHtml(t.title),escapeHtml(t.group),'сейчас')).join('')}</div></div>`:''}
   </div>`,{title:'Вид мастера',role:'master'});
 }
 function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%','./birdhouse-sketch.svg','В процессе',false,null)}${portfolioCard('Полка','Варя · 40%','./wood-joint.svg','В процессе',false,null)}</div></div>`,{title:'Проекты',role:'master'}); }
@@ -410,14 +414,25 @@ function showNoteModal(){
   const m=modal(`<div class="eyebrow">Заметка</div><h2 class="h2">Что получилось сегодня?</h2><div class="field" style="margin-top:14px"><textarea class="input" id="noteText" rows="5" placeholder="Напиши коротко своими словами"></textarea></div><button class="btn primary" style="width:100%;margin-top:12px" id="saveNote">Сохранить</button>`);
   $('#saveNote',m).addEventListener('click',()=>{ localStorage.setItem('garazh2-last-note',$('#noteText',m).value); m.remove(); toast('Заметка сохранена на устройстве'); });
 }
+let qrStream=null, qrTimer=null;
+function stopQR(){
+  if(qrTimer){ clearInterval(qrTimer); qrTimer=null; }
+  if(qrStream){ qrStream.getTracks().forEach(t=>t.stop()); qrStream=null; }
+  const video=$('#qrVideo'); if(video) video.srcObject=null;
+}
 async function startQR(){
   const status=$('#qrStatus'),video=$('#qrVideo'); if(!status||!video)return;
   if(!navigator.mediaDevices?.getUserMedia){status.textContent='Камера недоступна в этом браузере.';return;}
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}); video.srcObject=stream; await video.play(); status.textContent='Камера включена. Ищу QR-код…';
-    if(!('BarcodeDetector' in window)){ status.textContent='Камера работает, но распознавание QR здесь не поддерживается. Используйте вход по коду.'; return; }
+    stopQR();
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    qrStream=stream; video.srcObject=stream; await video.play(); status.textContent='Камера включена. Ищу QR-код…';
+    if(!('BarcodeDetector' in window)){ status.textContent='Камера работает, но распознавание QR здесь не поддерживается. Используйте вход по коду.'; stopQR(); return; }
     const detector=new BarcodeDetector({formats:['qr_code']});
-    const timer=setInterval(async()=>{ if(!document.body.contains(video)){clearInterval(timer);stream.getTracks().forEach(t=>t.stop());return;} try{ const codes=await detector.detect(video); if(codes[0]){ const raw=codes[0].rawValue||''; const m=raw.match(/role=(child|parent|master)/); const role=m?.[1]||'child'; state.session={role,name:role==='child'?'Миша':role==='parent'?'Родитель':'Мастер'}; state.role=role; save(); clearInterval(timer); stream.getTracks().forEach(t=>t.stop()); go(`#/${role}/home`); } }catch{} },700);
+    qrTimer=setInterval(async()=>{
+      if(route()!=='#/qr' || !document.body.contains(video)){ stopQR(); return; }
+      try{ const codes=await detector.detect(video); if(codes[0]){ const raw=codes[0].rawValue||''; const m=raw.match(/role=(child|parent|master)/); const role=m?.[1]||'child'; state.session={role,name:role==='child'?'Миша':role==='parent'?'Родитель':'Мастер'}; state.role=role; save(); stopQR(); go(`#/${role}/home`); } }catch{}
+    },700);
   }catch(e){ status.textContent='Не удалось включить камеру. Разрешите доступ или используйте вход по коду.'; }
 }
 function showAchievementStats(){
@@ -435,7 +450,8 @@ function showPhotoPreview(src){
 function exportData(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='garazh-demo-data.json'; a.click(); URL.revokeObjectURL(a.href); toast('Данные экспортированы'); }
 function escapeHtml(s=''){ return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 
-window.addEventListener('hashchange',render);
+window.addEventListener('hashchange',()=>{ if(route()!=='#/qr') stopQR(); render(); });
+window.addEventListener('pagehide',stopQR);
 window.addEventListener('online',()=>{ $('#offlineBanner')?.remove(); toast('Связь восстановлена'); });
 window.addEventListener('offline',showOffline);
 function showOffline(){ if($('#offlineBanner'))return; const e=document.createElement('div');e.id='offlineBanner';e.className='offline';e.textContent='Нет сети · приложение работает офлайн';document.body.appendChild(e); }
