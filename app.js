@@ -6,7 +6,7 @@ const DEFAULT_STATE = {
   session: null,
   profiles: [],
   role: 'child',
-  child: { name:'Миша', age:12, group:'Группа 2', level:3, xp:420, xpNext:600 },
+  child: { name:'Миша', sex:'boy', age:12, group:'Группа 2', level:3, xp:420, xpNext:600 },
   project: { title:'Кормушка для птиц', progress:70, status:'В процессе', likes:24, comments:6 },
   steps: [
     {id:'s1', title:'Чертёж и разметка', status:'done'},
@@ -134,6 +134,11 @@ function icon(name, cls=''){ return `<svg class="${cls}" viewBox="0 0 24 24" fil
 const A='./assets';
 const LOGO_SRC=`${A}/01_BRAND/logo-primary.png`;
 const ROLE_IMG={child:`${A}/02_ROLES/role-child.png`,parent:`${A}/02_ROLES/role-parent.png`,master:`${A}/02_ROLES/role-master.png`};
+// Standard fallback avatars for a child with no uploaded photo yet, chosen by
+// sex. Once a child has their own photo (c.photo), that always wins - these
+// are only ever the "nobody has uploaded a photo" default.
+const CHILD_IMG={boy:`${A}/02_ROLES/role-child.png`,girl:`${A}/02_ROLES/role-child-varya.png`};
+function childAvatarSrc(c){ return c?.photo || CHILD_IMG[c?.sex] || CHILD_IMG.boy; }
 const ICON_IMG={
   projects:`${A}/03_ICONS/SQUARE_WORK/icon-projects.png`,
   tasks:`${A}/03_ICONS/SQUARE_WORK/icon-tasks.png`,
@@ -330,7 +335,7 @@ function qrPage(){
 function childHome(){
   const p=state.project,c=state.child;
   return shell(`<div class="page">
-    <div class="hello"><div class="hello-left"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div class="h2">Привет, ${escapeHtml(c.name)}!</div></div><div class="notification"><button class="icon-btn" data-action="notifications">${icon('bell')}</button><span class="notification-dot"></span></div></div>
+    <div class="hello"><div class="hello-left"><img class="avatar" src="${childAvatarSrc(c)}" alt=""><div class="h2">Привет, ${escapeHtml(c.name)}!</div></div><div class="notification"><button class="icon-btn" data-action="notifications">${icon('bell')}</button><span class="notification-dot"></span></div></div>
     <div class="home-layout">
       <section>
         <article class="card current-project clickable" data-go="#/child/project">
@@ -370,11 +375,11 @@ function childProjects(){
     </div>
   </div>`,{title:'Портфолио',role:'child',topRight:'more'});
 }
-function portfolioCard(title,date,img,status,current,to=undefined,note=null){
+function portfolioCard(title,date,img,status,current,to=undefined,note=null,sex='boy'){
   const link=to===undefined ? (current?'#/child/project':'#/child/portfolio') : to;
   return `<article class="card portfolio-card ${link?'clickable':''}" ${link?`data-go="${link}"`:''}>
     <div class="portfolio-date">${date}</div>
-    <div class="portfolio-title-row"><img src="${ROLE_IMG.child}" alt=""><strong>${title}</strong></div>
+    <div class="portfolio-title-row"><img src="${childAvatarSrc({sex})}" alt=""><strong>${title}</strong></div>
     <div class="portfolio-art"><img src="${img}" alt="${title}"></div>
     <div class="portfolio-body">
       <div class="meta-row"><span>♡ ${current?24:18}</span><span>◯ ${current?6:3}</span><span class="badge ${current?'orange':''}">${status}</span></div>
@@ -453,7 +458,7 @@ function childPortfolio(){
 }
 function childProfile(){
   const c=state.child;
-  return shell(`<div class="page"><div class="card" style="text-align:center"><img class="avatar" src="${ROLE_IMG.child}" alt="" style="width:74px;height:74px;margin:0 auto 10px"><div class="h2">${escapeHtml(c.name)}</div><div class="small muted">${c.age} лет · ${c.group}</div><div class="metric-row section"><div class="metric"><strong>${c.level}</strong><span>уровень</span></div><div class="metric"><strong>3</strong><span>проекта</span></div><div class="metric"><strong>${state.achievements.filter(a=>a.earned).length}</strong><span>шеврона</span></div></div></div>
+  return shell(`<div class="page"><div class="card" style="text-align:center"><img class="avatar" src="${childAvatarSrc(c)}" alt="" style="width:74px;height:74px;margin:0 auto 10px"><div class="h2">${escapeHtml(c.name)}</div><div class="small muted">${c.age} лет · ${c.group}</div><div class="metric-row section"><div class="metric"><strong>${c.level}</strong><span>уровень</span></div><div class="metric"><strong>3</strong><span>проекта</span></div><div class="metric"><strong>${state.achievements.filter(a=>a.earned).length}</strong><span>шеврона</span></div></div></div>
     <div class="section stack"><button class="btn secondary" data-go="#/child/portfolio">Моё портфолио</button><button class="btn secondary" data-go="#/child/achievements">Достижения и навыки</button><button class="btn ghost" data-action="logout">Выйти из профиля</button></div></div>`,{title:'Профиль',role:'child'});
 }
 function childDay(){
@@ -467,7 +472,7 @@ function childCreate(){
 
 function parentHome(){
   const p=state.project;
-  return shell(`<div class="page"><div class="hello"><div class="hello-left"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div><div class="small muted">Ребёнок</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
+  return shell(`<div class="page"><div class="hello"><div class="hello-left"><img class="avatar" src="${childAvatarSrc(state.child)}" alt=""><div><div class="small muted">Ребёнок</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
     <div class="dashboard-grid"><section><div class="card"><div class="eyebrow">Прогресс за месяц</div><div class="section-head" style="margin-top:2px"><span class="h2 positive">+24%</span></div><div class="bar-chart">${[26,34,42,48,63,78].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div></div>
       <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow(ICON_IMG.skills,'Завершил проект','Кормушка для птиц','12 мая')}${eventRow(ICON_IMG.carpentry,'Получил шеврон','«Столяр»','10 мая')}${eventRow(ICON_IMG.safety,'Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
       <section><div class="card"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="hero-sketch"><img src="${IMG_SRC.birdhouseSketch}" alt=""></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><b>${p.progress}%</b></div></div><div class="section metric-row"><div class="metric"><strong>8</strong><span>занятий</span></div><div class="metric"><strong>3</strong><span>работы</span></div><div class="metric"><strong>4</strong><span>шеврона</span></div></div></section></div>
@@ -478,15 +483,15 @@ function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">
 function parentMessages(){ return genericMessages('parent'); }
 function parentSettings(){ return shell(`<div class="page"><h1 class="h1">Настройки</h1><div class="stack section"><div class="card"><div class="h3">Уведомления</div><div class="small muted">Прогресс, новые работы и сообщения мастера.</div></div><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Настройки',role:'parent'}); }
 
-const STUDENTS=[{name:'Миша',project:'Кормушка для птиц',progress:70},{name:'Варя',project:'Полка',progress:40},{name:'Артём',project:'Ящик',progress:100},{name:'Саша',project:'Подставка',progress:66}];
+const STUDENTS=[{name:'Миша',sex:'boy',project:'Кормушка для птиц',progress:70},{name:'Варя',sex:'girl',project:'Полка',progress:40},{name:'Артём',sex:'boy',project:'Ящик',progress:100},{name:'Саша',sex:'boy',project:'Подставка',progress:66}];
 function masterHome(){
   return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Мастер</div><h1 class="h1">Группа 2</h1></div><button class="btn primary small-btn" data-action="new-task">+ Новое задание</button></div>
     <div class="segmented"><button class="active">Группа</button><button data-go="#/master/projects">Проекты</button></div>
-    <div class="card flat section">${STUDENTS.map(s=>`<div class="student-row"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div><strong>${s.name}</strong><div class="small muted">${s.project}</div></div><div class="student-progress"><div class="small" style="text-align:right;font-weight:800">${s.progress}%</div><div class="progress-track"><div class="progress-fill" style="width:${s.progress}%;background:${s.progress===100?'var(--green)':'var(--orange)'}"></div></div></div></div>`).join('')}</div>
+    <div class="card flat section">${STUDENTS.map(s=>`<div class="student-row"><img class="avatar" src="${childAvatarSrc(s)}" alt=""><div><strong>${s.name}</strong><div class="small muted">${s.project}</div></div><div class="student-progress"><div class="small" style="text-align:right;font-weight:800">${s.progress}%</div><div class="progress-track"><div class="progress-fill" style="width:${s.progress}%;background:${s.progress===100?'var(--green)':'var(--orange)'}"></div></div></div></div>`).join('')}</div>
     ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow(ICON_IMG.tasks,escapeHtml(t.title),escapeHtml(t.group),'сейчас')).join('')}</div></div>`:''}
   </div>`,{title:'Вид мастера',role:'master'});
 }
-function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',TASK_IMG.kormushka,'В процессе',false,null)}${portfolioCard('Полка','Варя · 40%',IMG_SRC.birdhouseSketch,'В процессе',false,null)}</div></div>`,{title:'Проекты',role:'master'}); }
+function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',TASK_IMG.kormushka,'В процессе',false,null,null,'boy')}${portfolioCard('Полка','Варя · 40%',IMG_SRC.birdhouseSketch,'В процессе',false,null,null,'girl')}</div></div>`,{title:'Проекты',role:'master'}); }
 function masterMessages(){ return genericMessages('master'); }
 function masterMore(){ return shell(`<div class="page"><h1 class="h1">Ещё</h1><div class="stack section"><button class="btn secondary" data-action="new-task">Создать задание</button><button class="btn secondary" data-action="export-demo">Экспорт демо-данных</button><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Ещё',role:'master'}); }
 function genericMessages(role){ return shell(`<div class="page"><div class="eyebrow">Сообщения</div><h1 class="h1" style="margin-top:4px">Мастерская на связи</h1><div class="card section"><div class="event"><div class="avatar"></div><div><strong>${role==='master'?'Родители группы 2':'Мастер Алексей'}</strong><div class="small muted">Завтра занятие по расписанию, 16:00.</div></div><div class="event-date">17:42</div></div></div><div class="note-box section">${icon('message')}<div><strong>Демо-раздел</strong><div class="small">Реальные сообщения подключаются вместе с серверной частью.</div></div></div></div>`,{title:'Сообщения',role}); }
