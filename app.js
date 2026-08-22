@@ -155,6 +155,26 @@ const ICON_IMG={
 };
 const IMG_SRC={birdhouseSketch:`${A}/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png`,birdhousePhoto:`${A}/04_SKETCHES_AND_IMAGES/photo-birdhouse.png`,woodCrack:`${A}/04_SKETCHES_AND_IMAGES/photo-wood-crack.png`};
 
+// Approved task illustrations from 08_TASK_ICONS_APPROVED (Google Drive).
+// One dedicated PNG per specific named task - never reuse one of these for
+// a different task.
+const TASK_IMG={
+  taburet:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/01_stolyarka_taburet.png`,
+  skvorechnik:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/02_stolyarka_skvorechnik.png`,
+  kormushka:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/03_stolyarka_kormushka-dlya-ptic.png`,
+  podstavka:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/04_stolyarka_podstavka-pod-telefon.png`,
+  zameniLampochku:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/ELEKTRIKA/05_electrika_zameni-lampochku.png`,
+  prostayaElektrocep:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/ELEKTRIKA/06_electrika_prostaya-elektrocep.png`,
+  ustanoviRozetku:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/ELEKTRIKA/07_electrika_ustanovi-rozetku.png`,
+  podklyuchiVyklyuchatel:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/ELEKTRIKA/08_electrika_podklyuchi-vyklyuchatel.png`,
+  soediniProvodaVKorobke:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/ELEKTRIKA/09_electrika_soedini-provoda-v-korobke.png`,
+  zamenaProkladki:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/SANTEHNIKA/10_santehnika_zamena-prokladki.png`,
+  ustanoviSifon:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/SANTEHNIKA/11_santehnika_ustanovi-sifon.png`,
+  ustraniZasor:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/SANTEHNIKA/12_santehnika_ustrani-zasor.png`,
+  gibkayaPodvodka:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/SANTEHNIKA/13_santehnika_gibkaya-podvodka.png`,
+  fumLenta:`${A}/04_SKETCHES_AND_IMAGES/TASK_ICONS/SANTEHNIKA/14_santehnika_fum-lenta.png`
+};
+
 const CHILD_NAV=[
   {route:'#/child/home',label:'Главная',icon:'home'},
   {route:'#/child/projects',label:'Проекты',icon:'project'},
@@ -342,9 +362,10 @@ function childProjects(){
   return shell(`<div class="page">
     <div class="chips"><button class="chip active" data-project-filter="all">Все</button><button class="chip" data-project-filter="work">Проекты</button><button class="chip" data-project-filter="done">Работы</button><button class="chip" data-project-filter="lessons">События</button></div>
     <div class="portfolio-grid section" id="projectGrid">
-      <div data-project-kind="work">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhousePhoto,'В процессе',true,undefined,'Отличная работа! Обработай края наждачкой.')}</div>
-      <div data-project-kind="done">${portfolioCard('Подставка под телефон','2 мая 2025',IMG_SRC.birdhouseSketch,'Готово',false)}</div>
-      <div data-project-kind="done">${portfolioCard('Скворечник','20 апр 2025',IMG_SRC.birdhouseSketch,'Готово',false)}</div>
+      <div data-project-kind="work">${portfolioCard('Кормушка для птиц','12 мая 2025',TASK_IMG.kormushka,'В процессе',true,undefined,'Отличная работа! Обработай края наждачкой.')}</div>
+      <div data-project-kind="done">${portfolioCard('Табурет','25 мая 2025',TASK_IMG.taburet,'Готово',false)}</div>
+      <div data-project-kind="done">${portfolioCard('Подставка под телефон','2 мая 2025',TASK_IMG.podstavka,'Готово',false)}</div>
+      <div data-project-kind="done">${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false)}</div>
       <div data-project-kind="lessons">${portfolioCard('Трещина в детали','10 мая 2025',IMG_SRC.woodCrack,'Исправлено',false,'#/child/lesson')}</div>
     </div>
   </div>`,{title:'Портфолио',role:'child',topRight:'more'});
@@ -371,15 +392,38 @@ function childProject(){
 }
 function stepRow(s,i){ return `<div class="step ${s.status}"><div class="step-dot">${s.status==='done'?icon('check'):i+1}</div><div><strong>${s.title}</strong><br><small>${s.status==='done'?'Готово':s.status==='current'?'Сейчас в работе':'Следующий этап'}</small></div>${s.status==='current'?`<span class="badge orange">Сейчас</span>`:''}</div>`; }
 
+const ELEKTRIKA_TASKS=[
+  {title:'Замени лампочку',img:TASK_IMG.zameniLampochku},
+  {title:'Собери простую электроцепь',img:TASK_IMG.prostayaElektrocep},
+  {title:'Установи розетку',img:TASK_IMG.ustanoviRozetku},
+  {title:'Подключи выключатель',img:TASK_IMG.podklyuchiVyklyuchatel},
+  {title:'Соедини провода в коробке',img:TASK_IMG.soediniProvodaVKorobke}
+];
+const SANTEHNIKA_TASKS=[
+  {title:'Замени прокладку в кране',img:TASK_IMG.zamenaProkladki},
+  {title:'Установи сифон',img:TASK_IMG.ustanoviSifon},
+  {title:'Устрани засор',img:TASK_IMG.ustraniZasor},
+  {title:'Замени гибкую подводку',img:TASK_IMG.gibkayaPodvodka},
+  {title:'Намотай ФУМ-ленту',img:TASK_IMG.fumLenta}
+];
 function childLessons(){
   return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Уроки</div><h1 class="h1">Учимся на работе</h1></div></div><div class="lessons-grid section">
     ${lessonCard('Косяк → Урок','Трещина в детали',IMG_SRC.woodCrack,'#/child/lesson','Исправлено')}
     ${lessonCard('Безопасность','Как проверить инструмент',IMG_SRC.birdhouseSketch,'#/child/lesson','5 мин')}
     ${lessonCard('Столярка','Разметка без спешки',IMG_SRC.birdhouseSketch,'#/child/lesson','7 мин')}
     ${lessonCard('Мастерская','Порядок после работы',IMG_SRC.birdhouseSketch,'#/child/lesson','4 мин')}
-  </div></div>`,{title:'Уроки',role:'child'});
+  </div>
+  <div class="section-head section"><h2 class="h3">Электрика</h2></div>
+  <div class="lessons-grid">${ELEKTRIKA_TASKS.map(t=>taskCard('Электрика',t.title,t.img)).join('')}</div>
+  <div class="section-head section"><h2 class="h3">Сантехника</h2></div>
+  <div class="lessons-grid">${SANTEHNIKA_TASKS.map(t=>taskCard('Сантехника',t.title,t.img)).join('')}</div>
+  </div>`,{title:'Уроки',role:'child'});
 }
 function lessonCard(kicker,title,img,to,badge){ return `<article class="card lesson-card clickable" data-go="${to}"><div class="lesson-thumb"><img src="${img}" alt=""></div><div class="lesson-body"><div class="eyebrow">${kicker}</div><div class="h3" style="margin-top:3px">${title}</div><p>Короткий практический разбор из реальной работы.</p><span class="badge orange" style="display:inline-block;margin-top:7px">${badge}</span></div></article>`; }
+// Approved task-illustration card: display-only (no detail page exists yet for
+// these tasks, so it isn't wired to data-go/clickable). Uses object-fit:contain
+// so the full approved circular badge always shows, never cropped.
+function taskCard(kicker,title,img){ return `<article class="card lesson-card"><div class="lesson-thumb task-thumb"><img src="${img}" alt="${title}"></div><div class="lesson-body"><div class="eyebrow">${kicker}</div><div class="h3" style="margin-top:3px">${title}</div></div></article>`; }
 function childLesson(){
   return shell(`<div class="page"><div class="hero-sketch"><img src="${IMG_SRC.woodCrack}" alt="Трещина в деревянной детали"></div>
     <div class="section-head"><div><h1 class="h1">Трещина в детали</h1><div class="small muted" style="margin-top:4px">10 мая 2025</div></div><span class="badge red">Исправлено</span></div>
@@ -405,7 +449,7 @@ function childAchievements(){
   </div>`,{title:'Достижения',back:'#/child/home',role:'child',avatar:false});
 }
 function childPortfolio(){
-  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">История работ</div><h1 class="h1">Портфолио</h1></div></div><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhousePhoto,'В процессе',true)}${portfolioCard('Подставка под телефон','2 мая 2025',IMG_SRC.birdhouseSketch,'Готово',false)}${portfolioCard('Скворечник','20 апр 2025',IMG_SRC.birdhouseSketch,'Готово',false)}</div></div>`,{title:'Портфолио',back:'#/child/home',role:'child',avatar:false});
+  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">История работ</div><h1 class="h1">Портфолио</h1></div></div><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',TASK_IMG.kormushka,'В процессе',true)}${portfolioCard('Табурет','25 мая 2025',TASK_IMG.taburet,'Готово',false)}${portfolioCard('Подставка под телефон','2 мая 2025',TASK_IMG.podstavka,'Готово',false)}${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false)}</div></div>`,{title:'Портфолио',back:'#/child/home',role:'child',avatar:false});
 }
 function childProfile(){
   const c=state.child;
@@ -430,7 +474,7 @@ function parentHome(){
   </div>`,{title:'Вид родителя',role:'parent'});
 }
 function eventRow(imgSrc,title,sub,date){ return `<div class="event"><div class="shape hex" style="width:40px;height:40px"><img src="${imgSrc}" alt="" style="width:20px;height:20px"></div><div><strong>${title}</strong><div class="small muted">${sub}</div></div><div class="event-date">${date}</div></div>`; }
-function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ребёнка</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhousePhoto,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025',IMG_SRC.birdhouseSketch,'Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
+function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ребёнка</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',TASK_IMG.kormushka,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
 function parentMessages(){ return genericMessages('parent'); }
 function parentSettings(){ return shell(`<div class="page"><h1 class="h1">Настройки</h1><div class="stack section"><div class="card"><div class="h3">Уведомления</div><div class="small muted">Прогресс, новые работы и сообщения мастера.</div></div><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Настройки',role:'parent'}); }
 
@@ -442,7 +486,7 @@ function masterHome(){
     ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow(ICON_IMG.tasks,escapeHtml(t.title),escapeHtml(t.group),'сейчас')).join('')}</div></div>`:''}
   </div>`,{title:'Вид мастера',role:'master'});
 }
-function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',IMG_SRC.birdhousePhoto,'В процессе',false,null)}${portfolioCard('Полка','Варя · 40%',IMG_SRC.birdhouseSketch,'В процессе',false,null)}</div></div>`,{title:'Проекты',role:'master'}); }
+function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',TASK_IMG.kormushka,'В процессе',false,null)}${portfolioCard('Полка','Варя · 40%',IMG_SRC.birdhouseSketch,'В процессе',false,null)}</div></div>`,{title:'Проекты',role:'master'}); }
 function masterMessages(){ return genericMessages('master'); }
 function masterMore(){ return shell(`<div class="page"><h1 class="h1">Ещё</h1><div class="stack section"><button class="btn secondary" data-action="new-task">Создать задание</button><button class="btn secondary" data-action="export-demo">Экспорт демо-данных</button><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Ещё',role:'master'}); }
 function genericMessages(role){ return shell(`<div class="page"><div class="eyebrow">Сообщения</div><h1 class="h1" style="margin-top:4px">Мастерская на связи</h1><div class="card section"><div class="event"><div class="avatar"></div><div><strong>${role==='master'?'Родители группы 2':'Мастер Алексей'}</strong><div class="small muted">Завтра занятие по расписанию, 16:00.</div></div><div class="event-date">17:42</div></div></div><div class="note-box section">${icon('message')}<div><strong>Демо-раздел</strong><div class="small">Реальные сообщения подключаются вместе с серверной частью.</div></div></div></div>`,{title:'Сообщения',role}); }

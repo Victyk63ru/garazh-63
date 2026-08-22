@@ -1,11 +1,11 @@
-const CACHE='garazh-v4-2026-08-22';
+const CACHE='garazh-v5-2026-08-22-task-icons';
 // Keep these two in sync with the ?v= query strings in index.html - a version
 // bump changes the URL, which is what actually forces a cache miss on old
 // installs. Bumping only CACHE without bumping these would still serve the
 // stale app.js/styles.css bytes to anyone whose browser had them cached
 // under the old (now still identical) URL.
-const VERSIONED_APP_JS='./app.js?v=2026-08-22-4';
-const VERSIONED_STYLES_CSS='./styles.css?v=2026-08-22-4';
+const VERSIONED_APP_JS='./app.js?v=2026-08-22-5';
+const VERSIONED_STYLES_CSS='./styles.css?v=2026-08-22-5';
 const CORE=[
   './','./index.html',VERSIONED_STYLES_CSS,VERSIONED_APP_JS,'./manifest.json',
   './icon-192.png','./icon-512.png',
