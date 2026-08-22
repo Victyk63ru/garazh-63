@@ -12,11 +12,17 @@
 03_ICONS/HEX_SKILLS/icon-electricity.png,icon,electricity,APPROVED
 03_ICONS/HEX_SKILLS/icon-safety.png,icon,safety,EXTRACTED_FROM_ICON_SYSTEM_SHEET
 03_ICONS/HEX_SKILLS/icon-tools.png,icon,tools,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/HEX_SKILLS/icon-skills.png,icon,"Навыки (главный экран ребёнка, новый утверждённый молоток, не icon-tools.png)",APPROVED
-03_ICONS/SQUARE_WORK/icon-projects.png,icon,projects,APPROVED
-03_ICONS/SQUARE_WORK/icon-tasks.png,icon,tasks,APPROVED
-03_ICONS/SQUARE_WORK/icon-lessons.png,icon,lessons,APPROVED
-03_ICONS/SQUARE_WORK/icon-day.png,icon,day,APPROVED
+03_ICONS/HEX_SKILLS/icon-skills.png,icon,"Не используется на childHome с версии HOME_CHILD_V2 (см. ниже) - оставлен на диске, файл не удалён",APPROVED
+03_ICONS/SQUARE_WORK/icon-projects.png,icon,"projects (не используется на childHome с версии HOME_CHILD_V2 - см. ниже)",APPROVED
+03_ICONS/SQUARE_WORK/icon-tasks.png,icon,"tasks (не используется на childHome с версии HOME_CHILD_V2 - см. ниже)",APPROVED
+03_ICONS/SQUARE_WORK/icon-lessons.png,icon,"lessons (не используется на childHome с версии HOME_CHILD_V2 - см. ниже)",APPROVED
+03_ICONS/SQUARE_WORK/icon-day.png,icon,"day (не используется на childHome с версии HOME_CHILD_V2 - см. ниже)",APPROVED
+03_ICONS/HOME_CHILD_V2/icon-home-projects.png,icon,"childHome «Мастерская» - Проекты (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
+03_ICONS/HOME_CHILD_V2/icon-home-skills.png,icon,"childHome «Мастерская» - Навыки (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
+03_ICONS/HOME_CHILD_V2/icon-home-achievements.png,icon,"childHome «Мастерская» - Достижения (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
+03_ICONS/HOME_CHILD_V2/icon-home-tasks.png,icon,"childHome «Мастерская» - Задания (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
+03_ICONS/HOME_CHILD_V2/icon-home-lessons.png,icon,"childHome «Мастерская» - Уроки (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
+03_ICONS/HOME_CHILD_V2/icon-home-myday.png,icon,"childHome «Мастерская» - Мой день (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
 04_SKETCHES_AND_IMAGES/sketch-birdhouse.png,image,Скетч текущего проекта,APPROVED
 04_SKETCHES_AND_IMAGES/sketch-birdhouse-notebook.png,image,Промо/портфолио,APPROVED
 04_SKETCHES_AND_IMAGES/photo-birdhouse.png,image,Фото готового проекта,APPROVED

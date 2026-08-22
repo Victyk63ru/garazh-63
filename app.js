@@ -148,11 +148,16 @@ const ICON_IMG={
   events:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-events.png`,
   help:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-help.png`,
   skills:`${A}/03_ICONS/HEX_SKILLS/icon-tools.png`,
-  skillsHome:`${A}/03_ICONS/HEX_SKILLS/icon-skills.png`,
   carpentry:`${A}/03_ICONS/HEX_SKILLS/icon-carpentry.png`,
   electricity:`${A}/03_ICONS/HEX_SKILLS/icon-electricity.png`,
   safety:`${A}/03_ICONS/HEX_SKILLS/icon-safety.png`,
   tools:`${A}/03_ICONS/HEX_SKILLS/icon-tools.png`,
+  projectsHome:`${A}/03_ICONS/HOME_CHILD_V2/icon-home-projects.png`,
+  skillsHome:`${A}/03_ICONS/HOME_CHILD_V2/icon-home-skills.png`,
+  achievementsHome:`${A}/03_ICONS/HOME_CHILD_V2/icon-home-achievements.png`,
+  tasksHome:`${A}/03_ICONS/HOME_CHILD_V2/icon-home-tasks.png`,
+  lessonsHome:`${A}/03_ICONS/HOME_CHILD_V2/icon-home-lessons.png`,
+  mydayHome:`${A}/03_ICONS/HOME_CHILD_V2/icon-home-myday.png`,
   achFirstProject:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-first-project.png`,
   achFirstTool:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-first-tool.png`,
   achDidItHimself:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-did-it-himself.png`,
@@ -295,7 +300,7 @@ function welcomePage(){
     </div>
     <div class="eyebrow" style="text-align:center;margin-top:20px;color:#77716b">Выберите роль для демо</div>
     <div class="roles" id="demoRoles">
-      ${roleCard('child','Ребёнок')}${roleCard('parent','Родитель')}${roleCard('master','Мастер')}
+      ${roleCard('child','Ученик')}${roleCard('parent','Родитель')}${roleCard('master','Мастер')}
     </div>
     <button class="btn ghost" style="width:100%;margin-top:10px" data-action="demo-enter">Открыть демо</button>
     <div class="auth-links"><button class="link-btn" data-go="#/register">Создать профиль</button><button class="link-btn" data-action="install-help" style="display:flex;align-items:center;gap:5px"><img src="${ICON_IMG.help}" alt="" style="width:16px;height:16px">Как установить</button></div>
@@ -307,7 +312,7 @@ function loginPage(){
     <div class="auth-intro"><div class="eyebrow">Вход по коду</div><h1 class="h2" style="margin-top:5px">Введите код мастерской</h1><p class="body">Для теста подойдёт код <b>1234</b>.</p></div>
     <form id="loginForm" class="stack">
       <div class="field"><label for="code">Код</label><input id="code" class="input" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Например, 1234" required></div>
-      <div class="field"><label>Роль</label><select id="loginRole" class="input"><option value="child">Ребёнок</option><option value="parent">Родитель</option><option value="master">Мастер</option></select></div>
+      <div class="field"><label>Роль</label><select id="loginRole" class="input"><option value="child">Ученик</option><option value="parent">Родитель</option><option value="master">Мастер</option></select></div>
       <button class="btn primary" type="submit">Войти</button>
     </form>
     <div class="auth-links"><button class="link-btn" data-go="#/register">Нет профиля? Создать</button></div>
@@ -318,7 +323,7 @@ function registerPage(){
     <div class="auth-intro"><div class="eyebrow">Локальная регистрация</div><h1 class="h2" style="margin-top:5px">Создать профиль</h1><p class="body">Пока профиль хранится только на этом устройстве. Синхронизацию подключим через сервер.</p></div>
     <form id="registerForm" class="stack">
       <div class="field"><label for="regName">Имя</label><input id="regName" class="input" placeholder="Имя" required></div>
-      <div class="field"><label for="regRole">Роль</label><select id="regRole" class="input"><option value="child">Ребёнок</option><option value="parent">Родитель</option><option value="master">Мастер</option></select></div>
+      <div class="field"><label for="regRole">Роль</label><select id="regRole" class="input"><option value="child">Ученик</option><option value="parent">Родитель</option><option value="master">Мастер</option></select></div>
       <div class="field"><label for="regCode">Код входа</label><input id="regCode" class="input" inputmode="numeric" maxlength="8" placeholder="4–8 цифр" required></div>
       <button class="btn primary" type="submit">Создать и войти</button>
     </form>
@@ -348,12 +353,12 @@ function childHome(){
       <section class="section">
         <div class="section-head"><h2 class="h3">Мастерская</h2><button class="link-btn" data-go="#/child/portfolio">Портфолио</button></div>
         <div class="quick-grid">
-          ${quickImg(ICON_IMG.projects,'Проекты','#/child/projects')}
+          ${quickImg(ICON_IMG.projectsHome,'Проекты','#/child/projects')}
           ${quickImg(ICON_IMG.skillsHome,'Навыки','#/child/achievements')}
-          ${quickImg(ICON_IMG.achievements,'Достижения','#/child/achievements')}
-          ${quickImg(ICON_IMG.tasks,'Задания','#/child/project')}
-          ${quickImg(ICON_IMG.lessons,'Уроки','#/child/lessons')}
-          ${quickImg(ICON_IMG.day,'Мой день','#/child/day')}
+          ${quickImg(ICON_IMG.achievementsHome,'Достижения','#/child/achievements')}
+          ${quickImg(ICON_IMG.tasksHome,'Задания','#/child/project')}
+          ${quickImg(ICON_IMG.lessonsHome,'Уроки','#/child/lessons')}
+          ${quickImg(ICON_IMG.mydayHome,'Мой день','#/child/day')}
         </div>
         <div class="section"><div class="card flat"><div class="section-head"><div><div class="eyebrow">Уровень ${c.level}</div><div class="h3" style="margin-top:2px">Столяр — ученик</div></div><strong>${c.xp}/${c.xpNext} XP</strong></div><div class="progress-track"><div class="progress-fill" style="width:${Math.round(c.xp/c.xpNext*100)}%"></div></div></div></div>
       </section>
@@ -473,14 +478,14 @@ function childCreate(){
 
 function parentHome(){
   const p=state.project;
-  return shell(`<div class="page"><div class="hello"><div class="hello-left"><img class="avatar" src="${childAvatarSrc(state.child)}" alt=""><div><div class="small muted">Ребёнок</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
+  return shell(`<div class="page"><div class="hello"><div class="hello-left"><img class="avatar" src="${childAvatarSrc(state.child)}" alt=""><div><div class="small muted">Ученик</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
     <div class="dashboard-grid"><section><div class="card"><div class="eyebrow">Прогресс за месяц</div><div class="section-head" style="margin-top:2px"><span class="h2 positive">+24%</span></div><div class="bar-chart">${[26,34,42,48,63,78].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div></div>
       <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow(ICON_IMG.skills,'Завершил проект','Кормушка для птиц','12 мая')}${eventRow(ICON_IMG.carpentry,'Получил шеврон','«Столяр»','10 мая')}${eventRow(ICON_IMG.safety,'Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
       <section><div class="card"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="hero-sketch"><img src="${IMG_SRC.birdhouseSketch}" alt=""></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><b>${p.progress}%</b></div></div><div class="section metric-row"><div class="metric"><strong>8</strong><span>занятий</span></div><div class="metric"><strong>3</strong><span>работы</span></div><div class="metric"><strong>4</strong><span>шеврона</span></div></div></section></div>
   </div>`,{title:'Вид родителя',role:'parent'});
 }
 function eventRow(imgSrc,title,sub,date){ return `<div class="event"><div class="shape hex" style="width:40px;height:40px"><img src="${imgSrc}" alt="" style="width:20px;height:20px"></div><div><strong>${title}</strong><div class="small muted">${sub}</div></div><div class="event-date">${date}</div></div>`; }
-function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ребёнка</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',TASK_IMG.kormushka,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
+function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ученика</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',TASK_IMG.kormushka,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
 function parentMessages(){ return genericMessages('parent'); }
 function parentSettings(){ return shell(`<div class="page"><h1 class="h1">Настройки</h1><div class="stack section"><div class="card"><div class="h3">Уведомления</div><div class="small muted">Прогресс, новые работы и сообщения мастера.</div></div><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Настройки',role:'parent'}); }
 

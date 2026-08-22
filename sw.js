@@ -1,16 +1,19 @@
-const CACHE='garazh-v8-2026-08-22-icons-fix';
+const CACHE='garazh-v9-2026-08-22-childhome-v2';
 // Keep these two in sync with the ?v= query strings in index.html - a version
 // bump changes the URL, which is what actually forces a cache miss on old
 // installs. Bumping only CACHE without bumping these would still serve the
 // stale app.js/styles.css bytes to anyone whose browser had them cached
 // under the old (now still identical) URL.
-const VERSIONED_APP_JS='./app.js?v=2026-08-22-8';
-const VERSIONED_STYLES_CSS='./styles.css?v=2026-08-22-8';
+const VERSIONED_APP_JS='./app.js?v=2026-08-22-9';
+const VERSIONED_STYLES_CSS='./styles.css?v=2026-08-22-9';
 const CORE=[
   './','./index.html',VERSIONED_STYLES_CSS,VERSIONED_APP_JS,'./manifest.json',
   './icon-192.png','./icon-512.png',
   './assets/01_BRAND/logo-primary.png',
   './assets/02_ROLES/role-child.png','./assets/02_ROLES/role-child-varya.png','./assets/02_ROLES/role-parent.png','./assets/02_ROLES/role-master.png',
+  './assets/03_ICONS/HOME_CHILD_V2/icon-home-projects.png','./assets/03_ICONS/HOME_CHILD_V2/icon-home-skills.png',
+  './assets/03_ICONS/HOME_CHILD_V2/icon-home-achievements.png','./assets/03_ICONS/HOME_CHILD_V2/icon-home-tasks.png',
+  './assets/03_ICONS/HOME_CHILD_V2/icon-home-lessons.png','./assets/03_ICONS/HOME_CHILD_V2/icon-home-myday.png',
   './assets/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png','./assets/04_SKETCHES_AND_IMAGES/photo-birdhouse.png','./assets/04_SKETCHES_AND_IMAGES/photo-wood-crack.png'
 ];
 self.addEventListener('install',event=>{
