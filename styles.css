@@ -145,7 +145,7 @@ img.role-face{object-fit:cover;background:transparent;border:0}
 /* achievement */
 .segmented{display:grid;grid-template-columns:1fr 1fr;background:#ebe3d8;padding:3px;border-radius:13px}.segmented button{border:0;background:transparent;border-radius:10px;padding:9px;font-size:12px;font-weight:800}.segmented button.active{background:var(--orange);color:white;box-shadow:0 2px 8px rgba(110,71,32,.15)}
 .achievement-main{text-align:center;padding:20px 12px 12px}.big-hex{width:150px;height:136px;margin:0 auto 12px;clip-path:polygon(25% 3%,75% 3%,99% 50%,75% 97%,25% 97%,1% 50%);background:#3f3932;padding:3px}.big-hex-inner{width:100%;height:100%;clip-path:inherit;background:#f8f0e5;display:grid;place-items:center}.big-hex-inner svg{width:68px;height:68px}
-.badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.badge-item{text-align:center;font-size:10px;font-weight:700}.badge-item .shape{margin:0 auto 5px}.badge-item.locked{opacity:.42;filter:grayscale(1)}
+.badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.badge-item{text-align:center;font-size:10px;font-weight:700}.badge-item .shape{margin:0 auto 5px}.badge-item.locked{opacity:.55}
 .chevron-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.chevron-item{text-align:center;font-size:11px;font-weight:700}.chevron-item .shape.hex{width:64px;height:64px;margin:0 auto 6px}.chevron-item .shape.hex img{width:34px;height:34px}
 .positive{color:var(--green);font-weight:850}
 

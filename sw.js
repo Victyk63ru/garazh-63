@@ -1,11 +1,11 @@
-const CACHE='garazh-v9-2026-08-22-childhome-v2';
+const CACHE='garazh-v10-2026-08-22-cleanup-v2';
 // Keep these two in sync with the ?v= query strings in index.html - a version
 // bump changes the URL, which is what actually forces a cache miss on old
 // installs. Bumping only CACHE without bumping these would still serve the
 // stale app.js/styles.css bytes to anyone whose browser had them cached
 // under the old (now still identical) URL.
-const VERSIONED_APP_JS='./app.js?v=2026-08-22-9';
-const VERSIONED_STYLES_CSS='./styles.css?v=2026-08-22-9';
+const VERSIONED_APP_JS='./app.js?v=2026-08-22-10';
+const VERSIONED_STYLES_CSS='./styles.css?v=2026-08-22-10';
 const CORE=[
   './','./index.html',VERSIONED_STYLES_CSS,VERSIONED_APP_JS,'./manifest.json',
   './icon-192.png','./icon-512.png',
@@ -14,7 +14,13 @@ const CORE=[
   './assets/03_ICONS/HOME_CHILD_V2/icon-home-projects.png','./assets/03_ICONS/HOME_CHILD_V2/icon-home-skills.png',
   './assets/03_ICONS/HOME_CHILD_V2/icon-home-achievements.png','./assets/03_ICONS/HOME_CHILD_V2/icon-home-tasks.png',
   './assets/03_ICONS/HOME_CHILD_V2/icon-home-lessons.png','./assets/03_ICONS/HOME_CHILD_V2/icon-home-myday.png',
-  './assets/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png','./assets/04_SKETCHES_AND_IMAGES/photo-birdhouse.png','./assets/04_SKETCHES_AND_IMAGES/photo-wood-crack.png'
+  './assets/04_SKETCHES_AND_IMAGES/photo-birdhouse.png',
+  './assets/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/project-birdfeeder.png','./assets/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/project-shelf.png',
+  './assets/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/detail-crack.png','./assets/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-check-tools.png',
+  './assets/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-marking.png','./assets/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-cleanup.png',
+  './assets/03_ICONS/SKILL_BADGES_V2/badge-carpentry.png','./assets/03_ICONS/SKILL_BADGES_V2/badge-electricity.png','./assets/03_ICONS/SKILL_BADGES_V2/badge-tools.png',
+  './assets/03_ICONS/ACHIEVEMENTS_COLOR/achv-first-project-color.png','./assets/03_ICONS/ACHIEVEMENTS_COLOR/achv-first-tool-color.png',
+  './assets/03_ICONS/ACHIEVEMENTS_COLOR/achv-did-it-himself-color.png','./assets/03_ICONS/ACHIEVEMENTS_COLOR/achv-10-sessions-color.png','./assets/03_ICONS/ACHIEVEMENTS_COLOR/achv-tidy-space-color.png'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
