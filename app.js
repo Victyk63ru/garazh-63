@@ -603,6 +603,22 @@ window.addEventListener('offline',showOffline);
 function showOffline(){ if($('#offlineBanner'))return; const e=document.createElement('div');e.id='offlineBanner';e.className='offline';e.textContent='Нет сети · приложение работает офлайн';document.body.appendChild(e); }
 if(!navigator.onLine) showOffline();
 
-if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('SW:',err))); }
+if('serviceWorker' in navigator){
+  let swRefreshing=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    // A new service worker just took control (skipWaiting + clients.claim in
+    // sw.js). Reload once so this tab actually runs the new app.js/styles.css
+    // instead of keeping the old module instance alive in memory. Guarded so
+    // a second controllerchange (there shouldn't be one) can't loop reloads.
+    if(swRefreshing) return;
+    swRefreshing=true;
+    location.reload();
+  });
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      reg.update().catch(()=>{});
+    }).catch(err=>console.warn('SW:',err));
+  });
+}
 
 if(!location.hash) location.hash=state.session?`#/${state.session.role}/home`:'#/welcome'; else render();
