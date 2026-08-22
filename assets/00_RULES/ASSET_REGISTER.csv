@@ -1,8 +1,9 @@
 ﻿file,type,use,status
 01_BRAND/logo-primary.png,brand,"Стартовый экран, боковая панель, бренд",APPROVED
-02_ROLES/role-child.png,role,Ребёнок,APPROVED
-02_ROLES/role-parent.png,role,Родитель,APPROVED
-02_ROLES/role-master.png,role,Мастер,APPROVED
+02_ROLES/role-child.png,role,"Ребёнок (единая серия с role-parent/role-master; мальчик, стандартный fallback без фото)",APPROVED
+02_ROLES/role-child-varya.png,role,"Ребёнок (девочка, стандартный fallback без фото)",APPROVED
+02_ROLES/role-parent.png,role,"Родитель (единая серия с role-child/role-master)",APPROVED
+02_ROLES/role-master.png,role,"Мастер (единая серия с role-child/role-parent, портрет по фото)",APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-profile.png,icon,profile,APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-achievements.png,icon,achievements,APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-events.png,icon,events,APPROVED
