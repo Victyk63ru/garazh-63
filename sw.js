@@ -1,4 +1,4 @@
-const CACHE='garazh-v2-2026-08-21';
+const CACHE='garazh-v3-2026-08-22';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.json',
   './icon-192.png','./icon-512.png',

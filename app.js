@@ -30,7 +30,7 @@ const DEFAULT_STATE = {
   customTasks: []
 };
 
-const STORAGE_KEY='garazh2-state-v1';
+const STORAGE_KEY='garazh2-state-v2';
 function loadState(){
   try{
     const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
@@ -222,13 +222,13 @@ function welcomePage(){
     </div>
     <div class="eyebrow" style="text-align:center;margin-top:20px;color:#77716b">Выберите роль для демо</div>
     <div class="roles" id="demoRoles">
-      ${roleCard('child','Ребёнок',true)}${roleCard('parent','Родитель')}${roleCard('master','Мастер')}
+      ${roleCard('child','Ребёнок')}${roleCard('parent','Родитель')}${roleCard('master','Мастер')}
     </div>
     <button class="btn ghost" style="width:100%;margin-top:10px" data-action="demo-enter">Открыть демо</button>
     <div class="auth-links"><button class="link-btn" data-go="#/register">Создать профиль</button><button class="link-btn" data-action="install-help" style="display:flex;align-items:center;gap:5px"><img src="${ICON_IMG.help}" alt="" style="width:16px;height:16px">Как установить</button></div>
   </section></main>`;
 }
-function roleCard(role,label,selected=false){ return `<button class="role-card ${selected?'selected':''}" data-role="${role}"><img class="role-face" src="${ROLE_IMG[role]}" alt=""><strong>${label}</strong></button>`; }
+function roleCard(role,label){ const selected=state.role===role; return `<button class="role-card ${selected?'selected':''}" data-role="${role}"><img class="role-face" src="${ROLE_IMG[role]}" alt=""><strong>${label}</strong></button>`; }
 function loginPage(){
   return `<main class="auth-page"><section class="auth-card page"><button class="icon-btn" data-go="#/welcome">${icon('back')}</button>
     <div class="auth-intro"><div class="eyebrow">Вход по коду</div><h1 class="h2" style="margin-top:5px">Введите код мастерской</h1><p class="body">Для теста подойдёт код <b>1234</b>.</p></div>
@@ -354,7 +354,7 @@ function childAchievements(){
     <div class="chevron-row">${SKILL_CHEVRONS.map(c=>`<div class="chevron-item"><span class="shape hex"><img src="${c.icon}" alt=""></span><div>${c.label}</div></div>`).join('')}</div>
     <div class="section-head section"><h2 class="h3">Достижения</h2><span class="small muted">${earned}/${state.achievements.length}</span></div>
 
-    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ICON_IMG[a.icon]}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
+    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ICON_IMG[a.icon]||ICON_IMG.achievements}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
   </div>`,{title:'Достижения',back:'#/child/home',role:'child',avatar:false});
 }
 function childPortfolio(){
@@ -428,7 +428,7 @@ function onRegister(e){
 }
 async function handleAction(action,el){
   if(action==='demo-enter'){
-    const role=$('[data-role].selected')?.dataset.role||'child'; state.session={role,name:role==='child'?'Миша':role==='parent'?'Родитель':'Мастер'}; state.role=role; save(); go(`#/${role}/home`); return;
+    const role=state.role||'child'; state.session={role,name:role==='child'?'Миша':role==='parent'?'Родитель':'Мастер'}; save(); go(`#/${role}/home`); return;
   }
   if(action==='logout'){ state.session=null; save(); go('#/welcome'); return; }
   if(action==='notifications'){ toast('Новых уведомлений: 1'); return; }
