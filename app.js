@@ -165,6 +165,38 @@ const ICON_IMG={
   ach10Sessions:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-10-sessions.png`
 };
 const IMG_SRC={birdhouseSketch:`${A}/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png`,birdhousePhoto:`${A}/04_SKETCHES_AND_IMAGES/photo-birdhouse.png`,woodCrack:`${A}/04_SKETCHES_AND_IMAGES/photo-wood-crack.png`};
+// DEPRECATED_DO_NOT_USE: sketch-birdhouse.png and photo-wood-crack.png are no
+// longer used anywhere in the UI as of CLEANUP_V2 - kept only as unreferenced
+// legacy files (see ASSET_REGISTER.csv). Use PROJECT_LESSON_IMG below instead.
+
+// Approved production photos/illustrations for specific projects and lessons
+// (CLEANUP_V2_APPROVED, Google Drive). One dedicated PNG per specific
+// project/lesson - never reuse one of these for an unrelated project/lesson.
+const PROJECT_LESSON_IMG={
+  birdfeeder:`${A}/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/project-birdfeeder.png`,
+  shelf:`${A}/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/project-shelf.png`,
+  crack:`${A}/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/detail-crack.png`,
+  checkTools:`${A}/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-check-tools.png`,
+  marking:`${A}/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-marking.png`,
+  cleanup:`${A}/04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-cleanup.png`
+};
+// Approved v2 skill badges (CLEANUP_V2_APPROVED) - replace the older
+// EXTRACTED_FROM_ICON_SYSTEM_SHEET hex icons on the achievements screen.
+const BADGE_IMG={
+  carpentry:`${A}/03_ICONS/SKILL_BADGES_V2/badge-carpentry.png`,
+  electricity:`${A}/03_ICONS/SKILL_BADGES_V2/badge-electricity.png`,
+  tools:`${A}/03_ICONS/SKILL_BADGES_V2/badge-tools.png`
+};
+// Approved color achievement icons (ACHIEVEMENTS_COLOR_APPROVED). Unlike
+// every other production image in the app, these are meant to stay full
+// color - never wrap them in grayscale/sepia/CSS filter.
+const ACH_COLOR_IMG={
+  achFirstProject:`${A}/03_ICONS/ACHIEVEMENTS_COLOR/achv-first-project-color.png`,
+  achFirstTool:`${A}/03_ICONS/ACHIEVEMENTS_COLOR/achv-first-tool-color.png`,
+  achDidItHimself:`${A}/03_ICONS/ACHIEVEMENTS_COLOR/achv-did-it-himself-color.png`,
+  ach10Sessions:`${A}/03_ICONS/ACHIEVEMENTS_COLOR/achv-10-sessions-color.png`,
+  achTidySpace:`${A}/03_ICONS/ACHIEVEMENTS_COLOR/achv-tidy-space-color.png`
+};
 
 // Approved task illustrations from 08_TASK_ICONS_APPROVED (Google Drive).
 // One dedicated PNG per specific named task - never reuse one of these for
@@ -346,7 +378,7 @@ function childHome(){
       <section>
         <article class="card current-project clickable" data-go="#/child/project">
           <div class="project-copy"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><div class="progress-value">${p.progress}%</div></div></div>
-          <div class="project-art"><img src="${IMG_SRC.birdhouseSketch}" alt="Эскиз кормушки для птиц"></div>
+          <div class="project-art"><img src="${PROJECT_LESSON_IMG.birdfeeder}" alt="Кормушка для птиц"></div>
           <div class="card-footer"><span class="badge">В процессе</span><b class="small" style="color:var(--orange)">Продолжить →</b></div>
         </article>
       </section>
@@ -377,7 +409,7 @@ function childProjects(){
       <div data-project-kind="done">${portfolioCard('Табурет','25 мая 2025',TASK_IMG.taburet,'Готово',false)}</div>
       <div data-project-kind="done">${portfolioCard('Подставка под телефон','2 мая 2025',TASK_IMG.podstavka,'Готово',false)}</div>
       <div data-project-kind="done">${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false)}</div>
-      <div data-project-kind="lessons">${portfolioCard('Трещина в детали','10 мая 2025',IMG_SRC.woodCrack,'Исправлено',false,'#/child/lesson')}</div>
+      <div data-project-kind="lessons">${portfolioCard('Трещина в детали','10 мая 2025',PROJECT_LESSON_IMG.crack,'Исправлено',false,'#/child/lesson')}</div>
     </div>
   </div>`,{title:'Портфолио',role:'child',topRight:'more'});
 }
@@ -396,7 +428,7 @@ function portfolioCard(title,date,img,status,current,to=undefined,note=null,sex=
 
 function childProject(){
   const p=state.project;
-  return shell(`<div class="page project-layout"><section><div class="eyebrow">Проект</div><h1 class="h1" style="margin-top:4px">${p.title}</h1><div class="hero-sketch"><img src="${IMG_SRC.birdhouseSketch}" alt="Эскиз кормушки"></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><div class="progress-value">${p.progress}%</div></div></section>
+  return shell(`<div class="page project-layout"><section><div class="eyebrow">Проект</div><h1 class="h1" style="margin-top:4px">${p.title}</h1><div class="hero-sketch"><img src="${PROJECT_LESSON_IMG.birdfeeder}" alt="Кормушка для птиц"></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><div class="progress-value">${p.progress}%</div></div></section>
     <section><div class="card flat"><div class="section-head"><h2 class="h3">Этапы работы</h2><span class="badge orange">${p.status}</span></div><div class="steps">${state.steps.map((s,i)=>stepRow(s,i)).join('')}</div></div>
       <div class="section card flat"><div class="eyebrow">Мастер</div><div class="body" style="margin-top:5px">Отличная работа. Обработай края наждачкой перед следующим этапом.</div></div>
       <div class="project-actions"><button class="btn primary" style="width:100%" data-action="continue-project">Продолжить работу</button></div></section></div>`,{title:'Проект',back:'#/child/projects',role:'child',avatar:false});
@@ -419,10 +451,10 @@ const SANTEHNIKA_TASKS=[
 ];
 function childLessons(){
   return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Уроки</div><h1 class="h1">Учимся на работе</h1></div></div><div class="lessons-grid section">
-    ${lessonCard('Косяк → Урок','Трещина в детали',IMG_SRC.woodCrack,'#/child/lesson','Исправлено')}
-    ${lessonCard('Безопасность','Как проверить инструмент',IMG_SRC.birdhouseSketch,'#/child/lesson','5 мин')}
-    ${lessonCard('Столярка','Разметка без спешки',IMG_SRC.birdhouseSketch,'#/child/lesson','7 мин')}
-    ${lessonCard('Мастерская','Порядок после работы',IMG_SRC.birdhouseSketch,'#/child/lesson','4 мин')}
+    ${lessonCard('Косяк → Урок','Трещина в детали',PROJECT_LESSON_IMG.crack,'#/child/lesson','Исправлено')}
+    ${lessonCard('Безопасность','Как проверить инструмент',PROJECT_LESSON_IMG.checkTools,'#/child/lesson','5 мин')}
+    ${lessonCard('Столярка','Разметка без спешки',PROJECT_LESSON_IMG.marking,'#/child/lesson','7 мин')}
+    ${lessonCard('Мастерская','Порядок после работы',PROJECT_LESSON_IMG.cleanup,'#/child/lesson','4 мин')}
   </div>
   <div class="section-head section"><h2 class="h3">Электрика</h2></div>
   <div class="lessons-grid">${ELEKTRIKA_TASKS.map(t=>taskCard('Электрика',t.title,t.img)).join('')}</div>
@@ -430,13 +462,13 @@ function childLessons(){
   <div class="lessons-grid">${SANTEHNIKA_TASKS.map(t=>taskCard('Сантехника',t.title,t.img)).join('')}</div>
   </div>`,{title:'Уроки',role:'child'});
 }
-function lessonCard(kicker,title,img,to,badge){ return `<article class="card lesson-card clickable" data-go="${to}"><div class="lesson-thumb"><img src="${img}" alt=""></div><div class="lesson-body"><div class="eyebrow">${kicker}</div><div class="h3" style="margin-top:3px">${title}</div><p>Короткий практический разбор из реальной работы.</p><span class="badge orange" style="display:inline-block;margin-top:7px">${badge}</span></div></article>`; }
+function lessonCard(kicker,title,img,to,badge){ return `<article class="card lesson-card clickable" data-go="${to}"><div class="lesson-thumb task-thumb"><img src="${img}" alt=""></div><div class="lesson-body"><div class="eyebrow">${kicker}</div><div class="h3" style="margin-top:3px">${title}</div><p>Короткий практический разбор из реальной работы.</p><span class="badge orange" style="display:inline-block;margin-top:7px">${badge}</span></div></article>`; }
 // Approved task-illustration card: display-only (no detail page exists yet for
 // these tasks, so it isn't wired to data-go/clickable). Uses object-fit:contain
 // so the full approved circular badge always shows, never cropped.
 function taskCard(kicker,title,img){ return `<article class="card lesson-card"><div class="lesson-thumb task-thumb"><img src="${img}" alt="${title}"></div><div class="lesson-body"><div class="eyebrow">${kicker}</div><div class="h3" style="margin-top:3px">${title}</div></div></article>`; }
 function childLesson(){
-  return shell(`<div class="page"><div class="hero-sketch"><img src="${IMG_SRC.woodCrack}" alt="Трещина в деревянной детали"></div>
+  return shell(`<div class="page"><div class="hero-sketch"><img src="${PROJECT_LESSON_IMG.crack}" alt="Трещина в деревянной детали"></div>
     <div class="section-head"><div><h1 class="h1">Трещина в детали</h1><div class="small muted" style="margin-top:4px">10 мая 2025</div></div><span class="badge red">Исправлено</span></div>
     <div class="card reflection section"><div class="reflection-block"><strong>Что случилось?</strong><div class="body muted">Слишком сильно затянул струбцину.</div></div><div class="reflection-block"><strong>Как исправил?</strong><div class="body muted">Заменил деталь. Теперь затягиваю постепенно.</div></div><div class="reflection-block"><strong>Что запомнил?</strong><div class="body muted">Проверяю усилие — прежде чем закручивать до конца.</div></div></div>
     <div class="note-box section">${icon('lightbulb')}<div><strong>Ошибки — это часть пути</strong><div class="small">Мы учимся на них!</div></div></div>
@@ -444,19 +476,19 @@ function childLesson(){
 }
 
 const SKILL_CHEVRONS=[
-  {icon:ICON_IMG.carpentry,label:'Столярка'},
-  {icon:ICON_IMG.electricity,label:'Электрика'},
-  {icon:ICON_IMG.tools,label:'Инструменты'}
+  {icon:BADGE_IMG.carpentry,label:'Столярка'},
+  {icon:BADGE_IMG.electricity,label:'Электрика'},
+  {icon:BADGE_IMG.tools,label:'Инструменты'}
 ];
 function childAchievements(){
   const earned=state.achievements.filter(a=>a.earned).length;
   return shell(`<div class="page"><div class="segmented"><button class="active">Шевроны</button><button data-action="achievement-stats">Статистика</button></div>
-    <div class="achievement-main"><div class="big-hex"><div class="big-hex-inner"><img src="${ICON_IMG.skills}" alt="" style="width:68px;height:68px"></div></div><div class="h2">Столяр</div><div class="small muted" style="margin-top:5px">Собрал 5 проектов из дерева</div><div class="progress-row" style="max-width:280px;margin:12px auto 0"><div class="progress-track"><div class="progress-fill" style="width:60%"></div></div><b>3 / 5</b></div></div>
+    <div class="achievement-main"><div class="big-hex"><div class="big-hex-inner"><img src="${BADGE_IMG.tools}" alt="" style="width:68px;height:68px"></div></div><div class="h2">Столяр</div><div class="small muted" style="margin-top:5px">Собрал 5 проектов из дерева</div><div class="progress-row" style="max-width:280px;margin:12px auto 0"><div class="progress-track"><div class="progress-fill" style="width:60%"></div></div><b>3 / 5</b></div></div>
     <div class="section-head"><h2 class="h3">Мои шевроны</h2></div>
     <div class="chevron-row">${SKILL_CHEVRONS.map(c=>`<div class="chevron-item"><span class="shape hex"><img src="${c.icon}" alt=""></span><div>${c.label}</div></div>`).join('')}</div>
     <div class="section-head section"><h2 class="h3">Достижения</h2><span class="small muted">${earned}/${state.achievements.length}</span></div>
 
-    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ICON_IMG[a.icon]||ICON_IMG.achievements}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
+    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ACH_COLOR_IMG[a.icon]||ICON_IMG.achievements}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
   </div>`,{title:'Достижения',back:'#/child/home',role:'child',avatar:false});
 }
 function childPortfolio(){
@@ -480,11 +512,11 @@ function parentHome(){
   const p=state.project;
   return shell(`<div class="page"><div class="hello"><div class="hello-left"><img class="avatar" src="${childAvatarSrc(state.child)}" alt=""><div><div class="small muted">Ученик</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
     <div class="dashboard-grid"><section><div class="card"><div class="eyebrow">Прогресс за месяц</div><div class="section-head" style="margin-top:2px"><span class="h2 positive">+24%</span></div><div class="bar-chart">${[26,34,42,48,63,78].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div></div>
-      <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow(ICON_IMG.skills,'Завершил проект','Кормушка для птиц','12 мая')}${eventRow(ICON_IMG.carpentry,'Получил шеврон','«Столяр»','10 мая')}${eventRow(ICON_IMG.safety,'Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
-      <section><div class="card"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="hero-sketch"><img src="${IMG_SRC.birdhouseSketch}" alt=""></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><b>${p.progress}%</b></div></div><div class="section metric-row"><div class="metric"><strong>8</strong><span>занятий</span></div><div class="metric"><strong>3</strong><span>работы</span></div><div class="metric"><strong>4</strong><span>шеврона</span></div></div></section></div>
+      <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow(PROJECT_LESSON_IMG.birdfeeder,'Завершил проект','Кормушка для птиц','12 мая')}${eventRow(BADGE_IMG.carpentry,'Получил шеврон','«Столяр»','10 мая')}${eventRow(PROJECT_LESSON_IMG.crack,'Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
+      <section><div class="card"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="hero-sketch"><img src="${PROJECT_LESSON_IMG.birdfeeder}" alt="Кормушка для птиц"></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><b>${p.progress}%</b></div></div><div class="section metric-row"><div class="metric"><strong>8</strong><span>занятий</span></div><div class="metric"><strong>3</strong><span>работы</span></div><div class="metric"><strong>4</strong><span>шеврона</span></div></div></section></div>
   </div>`,{title:'Вид родителя',role:'parent'});
 }
-function eventRow(imgSrc,title,sub,date){ return `<div class="event"><div class="shape hex" style="width:40px;height:40px"><img src="${imgSrc}" alt="" style="width:20px;height:20px"></div><div><strong>${title}</strong><div class="small muted">${sub}</div></div><div class="event-date">${date}</div></div>`; }
+function eventRow(imgSrc,title,sub,date){ return `<div class="event"><div class="shape circle" style="width:40px;height:40px"><img src="${imgSrc}" alt="" style="width:34px;height:34px;object-fit:contain"></div><div><strong>${title}</strong><div class="small muted">${sub}</div></div><div class="event-date">${date}</div></div>`; }
 function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ученика</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',TASK_IMG.kormushka,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025',TASK_IMG.skvorechnik,'Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
 function parentMessages(){ return genericMessages('parent'); }
 function parentSettings(){ return shell(`<div class="page"><h1 class="h1">Настройки</h1><div class="stack section"><div class="card"><div class="h3">Уведомления</div><div class="small muted">Прогресс, новые работы и сообщения мастера.</div></div><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Настройки',role:'parent'}); }
@@ -497,7 +529,7 @@ function masterHome(){
     ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow(ICON_IMG.tasks,escapeHtml(t.title),escapeHtml(t.group),'сейчас')).join('')}</div></div>`:''}
   </div>`,{title:'Вид мастера',role:'master'});
 }
-function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',TASK_IMG.kormushka,'В процессе',false,null,null,'boy')}${portfolioCard('Полка','Варя · 40%',IMG_SRC.birdhouseSketch,'В процессе',false,null,null,'girl')}</div></div>`,{title:'Проекты',role:'master'}); }
+function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',TASK_IMG.kormushka,'В процессе',false,null,null,'boy')}${portfolioCard('Полка','Варя · 40%',PROJECT_LESSON_IMG.shelf,'В процессе',false,null,null,'girl')}</div></div>`,{title:'Проекты',role:'master'}); }
 function masterMessages(){ return genericMessages('master'); }
 function masterMore(){ return shell(`<div class="page"><h1 class="h1">Ещё</h1><div class="stack section"><button class="btn secondary" data-action="new-task">Создать задание</button><button class="btn secondary" data-action="export-demo">Экспорт демо-данных</button><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Ещё',role:'master'}); }
 function genericMessages(role){ return shell(`<div class="page"><div class="eyebrow">Сообщения</div><h1 class="h1" style="margin-top:4px">Мастерская на связи</h1><div class="card section"><div class="event"><div class="avatar"></div><div><strong>${role==='master'?'Родители группы 2':'Мастер Алексей'}</strong><div class="small muted">Завтра занятие по расписанию, 16:00.</div></div><div class="event-date">17:42</div></div></div><div class="note-box section">${icon('message')}<div><strong>Демо-раздел</strong><div class="small">Реальные сообщения подключаются вместе с серверной частью.</div></div></div></div>`,{title:'Сообщения',role}); }

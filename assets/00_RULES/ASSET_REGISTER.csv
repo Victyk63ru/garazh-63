@@ -8,10 +8,10 @@
 03_ICONS/CIRCLE_PERSONAL/icon-achievements.png,icon,achievements,APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-events.png,icon,events,APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-help.png,icon,help,APPROVED
-03_ICONS/HEX_SKILLS/icon-carpentry.png,icon,carpentry,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/HEX_SKILLS/icon-electricity.png,icon,electricity,APPROVED
-03_ICONS/HEX_SKILLS/icon-safety.png,icon,safety,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/HEX_SKILLS/icon-tools.png,icon,tools,EXTRACTED_FROM_ICON_SYSTEM_SHEET
+03_ICONS/HEX_SKILLS/icon-carpentry.png,icon,"carpentry - заменён на 03_ICONS/SKILL_BADGES_V2/badge-carpentry.png (CLEANUP_V2), больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/HEX_SKILLS/icon-electricity.png,icon,"electricity - заменён на 03_ICONS/SKILL_BADGES_V2/badge-electricity.png (CLEANUP_V2), больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/HEX_SKILLS/icon-safety.png,icon,"safety - единственное использование (событие «Исправил косяк» у родителя) заменено на detail-crack.png, замены для отдельной сущности «safety» не выдавалось, больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/HEX_SKILLS/icon-tools.png,icon,"tools/skills - заменён на 03_ICONS/SKILL_BADGES_V2/badge-tools.png (CLEANUP_V2), больше не используется в UI",DEPRECATED_DO_NOT_USE
 03_ICONS/HEX_SKILLS/icon-skills.png,icon,"Не используется на childHome с версии HOME_CHILD_V2 (см. ниже) - оставлен на диске, файл не удалён",APPROVED
 03_ICONS/SQUARE_WORK/icon-projects.png,icon,"projects (не используется на childHome с версии HOME_CHILD_V2 - см. ниже)",APPROVED
 03_ICONS/SQUARE_WORK/icon-tasks.png,icon,"tasks (не используется на childHome с версии HOME_CHILD_V2 - см. ниже)",APPROVED
@@ -23,15 +23,29 @@
 03_ICONS/HOME_CHILD_V2/icon-home-tasks.png,icon,"childHome «Мастерская» - Задания (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
 03_ICONS/HOME_CHILD_V2/icon-home-lessons.png,icon,"childHome «Мастерская» - Уроки (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
 03_ICONS/HOME_CHILD_V2/icon-home-myday.png,icon,"childHome «Мастерская» - Мой день (единый утверждённый комплект HOME_CHILD_V2)",APPROVED
-04_SKETCHES_AND_IMAGES/sketch-birdhouse.png,image,Скетч текущего проекта,APPROVED
+04_SKETCHES_AND_IMAGES/sketch-birdhouse.png,image,"Скетч текущего проекта - заменён на PROJECTS_LESSONS/project-birdfeeder.png (CLEANUP_V2), больше не используется в UI",DEPRECATED_DO_NOT_USE
 04_SKETCHES_AND_IMAGES/sketch-birdhouse-notebook.png,image,Промо/портфолио,APPROVED
-04_SKETCHES_AND_IMAGES/photo-birdhouse.png,image,Фото готового проекта,APPROVED
-04_SKETCHES_AND_IMAGES/photo-wood-crack.png,image,Косяк → Урок,APPROVED
-03_ICONS/CIRCLE_PERSONAL/icon-achv-first-project.png,icon,достижение «Первый проект»,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/CIRCLE_PERSONAL/icon-achv-first-tool.png,icon,достижение «Первый инструмент»,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/CIRCLE_PERSONAL/icon-achv-did-it-himself.png,icon,достижение «Сделал самостоятельно»,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/CIRCLE_PERSONAL/icon-achv-tidy-space.png,icon,достижение «Хозяин рабочего места»,EXTRACTED_FROM_ICON_SYSTEM_SHEET
-03_ICONS/CIRCLE_PERSONAL/icon-achv-10-sessions.png,icon,достижение «10 занятий»,EXTRACTED_FROM_ICON_SYSTEM_SHEET
+04_SKETCHES_AND_IMAGES/photo-birdhouse.png,image,"Фото готового проекта - не используется в текущем UI (обнаружено при аудите этого PR, замена не выдавалась - не менялось)",APPROVED
+04_SKETCHES_AND_IMAGES/photo-wood-crack.png,image,"Косяк → Урок - заменён на PROJECTS_LESSONS/detail-crack.png (CLEANUP_V2), больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/CIRCLE_PERSONAL/icon-achv-first-project.png,icon,"достижение «Первый проект» - заменён на ACHIEVEMENTS_COLOR/achv-first-project-color.png, больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/CIRCLE_PERSONAL/icon-achv-first-tool.png,icon,"достижение «Первый инструмент» - заменён на ACHIEVEMENTS_COLOR/achv-first-tool-color.png, больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/CIRCLE_PERSONAL/icon-achv-did-it-himself.png,icon,"достижение «Сделал самостоятельно» - заменён на ACHIEVEMENTS_COLOR/achv-did-it-himself-color.png, больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/CIRCLE_PERSONAL/icon-achv-tidy-space.png,icon,"достижение «Хозяин рабочего места» - заменён на ACHIEVEMENTS_COLOR/achv-tidy-space-color.png, больше не используется в UI",DEPRECATED_DO_NOT_USE
+03_ICONS/CIRCLE_PERSONAL/icon-achv-10-sessions.png,icon,"достижение «10 занятий» - заменён на ACHIEVEMENTS_COLOR/achv-10-sessions-color.png, больше не используется в UI",DEPRECATED_DO_NOT_USE
+04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/project-birdfeeder.png,image,"Кормушка для птиц - текущий проект (childHome/childProject/parentHome)",APPROVED
+04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/project-shelf.png,image,"Проект Вари «Полка» (masterProjects)",APPROVED
+04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/detail-crack.png,image,"Трещина в детали (childProjects/childLessons/childLesson/parentHome)",APPROVED
+04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-check-tools.png,image,"Урок «Как проверить инструмент»",APPROVED
+04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-marking.png,image,"Урок «Разметка без спешки»",APPROVED
+04_SKETCHES_AND_IMAGES/PROJECTS_LESSONS/lesson-cleanup.png,image,"Урок «Порядок после работы»",APPROVED
+03_ICONS/SKILL_BADGES_V2/badge-carpentry.png,icon,"Шеврон «Столярка» (achievements)",APPROVED
+03_ICONS/SKILL_BADGES_V2/badge-electricity.png,icon,"Шеврон «Электрика» (achievements)",APPROVED
+03_ICONS/SKILL_BADGES_V2/badge-tools.png,icon,"Шеврон «Инструменты» + главный badge «Столяр» (achievements) + событие «Получил шеврон» (parentHome)",APPROVED
+03_ICONS/ACHIEVEMENTS_COLOR/achv-first-project-color.png,icon,"Достижение «Первый проект» (a1) - ЦВЕТНОЕ, без grayscale/filter",APPROVED
+03_ICONS/ACHIEVEMENTS_COLOR/achv-first-tool-color.png,icon,"Достижение «Первый инструмент» (a2) - ЦВЕТНОЕ, без grayscale/filter",APPROVED
+03_ICONS/ACHIEVEMENTS_COLOR/achv-did-it-himself-color.png,icon,"Достижение «Сделал самостоятельно» (a3) - ЦВЕТНОЕ, без grayscale/filter",APPROVED
+03_ICONS/ACHIEVEMENTS_COLOR/achv-10-sessions-color.png,icon,"Достижение «10 занятий» (a4) - ЦВЕТНОЕ, без grayscale/filter",APPROVED
+03_ICONS/ACHIEVEMENTS_COLOR/achv-tidy-space-color.png,icon,"Достижение «Хозяин рабочего места» (a5) - ЦВЕТНОЕ, без grayscale/filter",APPROVED
 04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/01_stolyarka_taburet.png,task_icon,Задание «Табурет»,APPROVED
 04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/02_stolyarka_skvorechnik.png,task_icon,Задание «Скворечник»,APPROVED
 04_SKETCHES_AND_IMAGES/TASK_ICONS/STOLYARKA/03_stolyarka_kormushka-dlya-ptic.png,task_icon,Задание «Кормушка для птиц»,APPROVED
