@@ -1,5 +1,7 @@
 # GARAZH — production assets v1
 
+Перед любой работой над приложением сначала прочитать /DEVELOPER_RULES.md и соблюдать его как обязательные правила проекта.
+
 Статус: APPROVED PRODUCTION PACKAGE.
 
 ## Главное правило
