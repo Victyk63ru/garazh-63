@@ -1,8 +1,10 @@
-const CACHE='garazh-v2-2026-08-20';
+const CACHE='garazh-v2-2026-08-21';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.json',
-  './icon-192.png','./icon-512.png','./logo.svg','./birdhouse-sketch.svg',
-  './tools-sketch.svg','./wood-joint.svg'
+  './icon-192.png','./icon-512.png',
+  './assets/01_BRAND/logo-primary.png',
+  './assets/02_ROLES/role-child.png','./assets/02_ROLES/role-parent.png','./assets/02_ROLES/role-master.png',
+  './assets/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png','./assets/04_SKETCHES_AND_IMAGES/photo-birdhouse.png','./assets/04_SKETCHES_AND_IMAGES/photo-wood-crack.png'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));

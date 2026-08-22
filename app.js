@@ -21,12 +21,11 @@ const DEFAULT_STATE = {
     {id:'t3', title:'Убери рабочее место после занятия', desc:'Верни инструменты в ящик, смети опилки со стола.', done:false}
   ],
   achievements: [
-    {id:'a1', name:'Первый проект', icon:'project', earned:true, date:'2 апр'},
-    {id:'a2', name:'Первый инструмент', icon:'tool', earned:true, date:'5 апр'},
-    {id:'a3', name:'Сделал самостоятельно', icon:'star', earned:true, date:'20 апр'},
-    {id:'a4', name:'10 занятий', icon:'calendar', earned:true, date:'5 мая'},
-    {id:'a5', name:'Хозяин рабочего места', icon:'broom', earned:false, date:null},
-    {id:'a6', name:'Столяр', icon:'hammer', earned:false, date:null}
+    {id:'a1', name:'Первый проект', icon:'achFirstProject', earned:true, date:'2 апр'},
+    {id:'a2', name:'Первый инструмент', icon:'achFirstTool', earned:true, date:'5 апр'},
+    {id:'a3', name:'Сделал самостоятельно', icon:'achDidItHimself', earned:true, date:'20 апр'},
+    {id:'a4', name:'10 занятий', icon:'ach10Sessions', earned:true, date:'5 мая'},
+    {id:'a5', name:'Хозяин рабочего места', icon:'achTidySpace', earned:false, date:null}
   ],
   customTasks: []
 };
@@ -54,7 +53,7 @@ function toast(msg){ const el=$('#toast'); el.textContent=msg; el.classList.add(
 
 const ICONS={
   home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V21h14V10.5"/><path d="M9 21v-6h6v6"/>',
-  project:'<path d="M4 20V8l8-5 8 5v12"/><path d="M7 20v-8h10v8M4 20h16M9 12h6"/>',
+  project:'<rect x="3.5" y="6" width="17" height="15" rx="3"/><path d="M8 6V4.5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1V6M8 12h5"/>',
   book:'<path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22z"/><path d="M20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22z"/>',
   user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
@@ -78,7 +77,10 @@ const ICONS={
   star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/>',
   broom:'<path d="m15 3-5 11M8 13l7 3-4 5-8-3z"/>',
   tool:'<path d="M14 6a4 4 0 0 0-5 5L3 17l4 4 6-6a4 4 0 0 0 5-5l-3 3-4-4z"/>',
-  logout:'<path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/>'
+  logout:'<path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/>',
+  close:'<path d="m6 6 12 12M18 6 6 18"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 6.5 8 6.5 8-6.5"/>',
+  morev:'<circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/>'
 };
 function icon(name, cls=''){ return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.tool}</svg>`; }
 
@@ -92,9 +94,19 @@ const ICON_IMG={
   day:`${A}/03_ICONS/SQUARE_WORK/icon-day.png`,
   achievements:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achievements.png`,
   events:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-events.png`,
-  help:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-help.png`
+  help:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-help.png`,
+  skills:`${A}/03_ICONS/HEX_SKILLS/icon-tools.png`,
+  carpentry:`${A}/03_ICONS/HEX_SKILLS/icon-carpentry.png`,
+  electricity:`${A}/03_ICONS/HEX_SKILLS/icon-electricity.png`,
+  safety:`${A}/03_ICONS/HEX_SKILLS/icon-safety.png`,
+  tools:`${A}/03_ICONS/HEX_SKILLS/icon-tools.png`,
+  achFirstProject:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-first-project.png`,
+  achFirstTool:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-first-tool.png`,
+  achDidItHimself:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-did-it-himself.png`,
+  achTidySpace:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-tidy-space.png`,
+  ach10Sessions:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-achv-10-sessions.png`
 };
-const IMG_SRC={birdhouseSketch:`${A}/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png`,woodCrack:`${A}/04_SKETCHES_AND_IMAGES/photo-wood-crack.png`};
+const IMG_SRC={birdhouseSketch:`${A}/04_SKETCHES_AND_IMAGES/sketch-birdhouse.png`,birdhousePhoto:`${A}/04_SKETCHES_AND_IMAGES/photo-birdhouse.png`,woodCrack:`${A}/04_SKETCHES_AND_IMAGES/photo-wood-crack.png`};
 
 const CHILD_NAV=[
   {route:'#/child/home',label:'Главная',icon:'home'},
@@ -106,13 +118,13 @@ const CHILD_NAV=[
 const PARENT_NAV=[
   {route:'#/parent/home',label:'Главная',icon:'home'},
   {route:'#/parent/projects',label:'Проекты',icon:'project'},
-  {route:'#/parent/messages',label:'Сообщения',icon:'message'},
+  {route:'#/parent/messages',label:'Сообщения',icon:'mail'},
   {route:'#/parent/settings',label:'Настройки',icon:'gear'}
 ];
 const MASTER_NAV=[
   {route:'#/master/home',label:'Группа',icon:'people'},
   {route:'#/master/projects',label:'Проекты',icon:'project'},
-  {route:'#/master/messages',label:'Сообщения',icon:'message'},
+  {route:'#/master/messages',label:'Сообщения',icon:'mail'},
   {route:'#/master/more',label:'Ещё',icon:'more'}
 ];
 
@@ -127,18 +139,21 @@ function isActiveRoute(current,item){
   return current===item.route;
 }
 
-function shell(content,{title='',back=null,role=null,avatar=true}={}){
+function shell(content,{title='',back=null,role=null,avatar=true,hideTopbar=false,topRight='bell'}={}){
   role=role||roleFromRoute(route());
   const nav=navForRole(role);
+  const rightBtn=topRight==='more'
+    ?`<button class="icon-btn" data-action="notifications" aria-label="Меню">${icon('morev')}</button>`
+    :`<button class="icon-btn" data-action="notifications" aria-label="Уведомления">${icon('bell')}<span class="notification-dot"></span></button>`;
   return `<div class="app-shell with-rail">
     ${rail(nav)}
-    <header class="topbar">
+    ${hideTopbar?'':`<header class="topbar">
       <div class="topbar-title">
         ${back?`<button class="icon-btn" data-go="${back}" aria-label="Назад">${icon('back')}</button>`:avatar?`<img class="avatar" src="${ROLE_IMG[role]||ROLE_IMG.child}" alt="">`:''}
         <strong>${title}</strong>
       </div>
-      <button class="icon-btn" data-action="notifications" aria-label="Уведомления"><img src="${ICON_IMG.events}" alt=""></button>
-    </header>
+      ${rightBtn}
+    </header>`}
     <main><div class="content">${content}</div></main>
     ${bottomNav(nav)}
   </div>`;
@@ -248,7 +263,7 @@ function qrPage(){
 function childHome(){
   const p=state.project,c=state.child;
   return shell(`<div class="page">
-    <div class="hello"><div class="hello-left"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div><div class="small muted">Привет,</div><div class="h2">${escapeHtml(c.name)}!</div></div></div><div class="notification"><button class="icon-btn" data-action="notifications"><img src="${ICON_IMG.events}" alt=""></button><span class="notification-dot"></span></div></div>
+    <div class="hello"><div class="hello-left"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div class="h2">Привет, ${escapeHtml(c.name)}!</div></div><div class="notification"><button class="icon-btn" data-action="notifications">${icon('bell')}</button><span class="notification-dot"></span></div></div>
     <div class="home-layout">
       <section>
         <article class="card current-project clickable" data-go="#/child/project">
@@ -261,7 +276,7 @@ function childHome(){
         <div class="section-head"><h2 class="h3">Мастерская</h2><button class="link-btn" data-go="#/child/portfolio">Портфолио</button></div>
         <div class="quick-grid">
           ${quickImg(ICON_IMG.projects,'Проекты','#/child/projects')}
-          ${quick('hammer','Навыки','#/child/achievements','hex')}
+          ${quickImg(ICON_IMG.skills,'Навыки','#/child/achievements')}
           ${quickImg(ICON_IMG.achievements,'Достижения','#/child/achievements')}
           ${quickImg(ICON_IMG.tasks,'Задания','#/child/project')}
           ${quickImg(ICON_IMG.lessons,'Уроки','#/child/lessons')}
@@ -270,23 +285,35 @@ function childHome(){
         <div class="section"><div class="card flat"><div class="section-head"><div><div class="eyebrow">Уровень ${c.level}</div><div class="h3" style="margin-top:2px">Столяр — ученик</div></div><strong>${c.xp}/${c.xpNext} XP</strong></div><div class="progress-track"><div class="progress-fill" style="width:${Math.round(c.xp/c.xpNext*100)}%"></div></div></div></div>
       </section>
     </div>
-  </div>`,{title:'Гараж',role:'child'});
+  </div>`,{role:'child',hideTopbar:true});
 }
 function quick(ic,label,to,shape='square'){ return `<button class="quick-card" data-go="${to}"><span class="shape ${shape}">${icon(ic)}</span><span>${label}</span></button>`; }
 function quickImg(src,label,to){ return `<button class="quick-card" data-go="${to}"><img class="icon-badge" src="${src}" alt=""><span>${label}</span></button>`; }
+function quickImgShape(src,label,to,shape){ return `<button class="quick-card" data-go="${to}"><span class="shape ${shape}"><img src="${src}" alt=""></span><span>${label}</span></button>`; }
 
 function childProjects(){
-  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Мои проекты</div><h1 class="h1">Портфолио мастерской</h1></div></div>
-    <div class="chips"><button class="chip active" data-project-filter="all">Все</button><button class="chip" data-project-filter="work">В работе</button><button class="chip" data-project-filter="done">Готово</button><button class="chip" data-project-filter="lessons">Ошибки → уроки</button></div>
+  return shell(`<div class="page">
+    <div class="chips"><button class="chip active" data-project-filter="all">Все</button><button class="chip" data-project-filter="work">Проекты</button><button class="chip" data-project-filter="done">Работы</button><button class="chip" data-project-filter="lessons">События</button></div>
     <div class="portfolio-grid section" id="projectGrid">
-      <div data-project-kind="work">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhouseSketch,'В процессе',true)}</div>
-      <div data-project-kind="done">${portfolioCard('Скворечник','20 апр 2025','./tools-sketch.svg','Готово',false)}</div>
-      <div data-project-kind="done">${portfolioCard('Подставка','5 апр 2025','./wood-joint.svg','Готово',false)}</div>
+      <div data-project-kind="work">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhousePhoto,'В процессе',true,undefined,'Отличная работа! Обработай края наждачкой.')}</div>
+      <div data-project-kind="done">${portfolioCard('Подставка под телефон','2 мая 2025',IMG_SRC.birdhouseSketch,'Готово',false)}</div>
+      <div data-project-kind="done">${portfolioCard('Скворечник','20 апр 2025',IMG_SRC.birdhouseSketch,'Готово',false)}</div>
       <div data-project-kind="lessons">${portfolioCard('Трещина в детали','10 мая 2025',IMG_SRC.woodCrack,'Исправлено',false,'#/child/lesson')}</div>
     </div>
-  </div>`,{title:'Проекты',role:'child'});
+  </div>`,{title:'Портфолио',role:'child',topRight:'more'});
 }
-function portfolioCard(title,date,img,status,current,to=undefined){ const link=to===undefined ? (current?'#/child/project':'#/child/portfolio') : to; return `<article class="card portfolio-card ${link?'clickable':''}" ${link?`data-go="${link}"`:''}><div class="portfolio-date">${date}</div><div class="portfolio-art"><img src="${img}" alt="${title}"></div><div class="portfolio-body"><div class="h3">${title}</div><div class="meta-row"><span>♡ ${current?24:18}</span><span>◯ ${current?6:3}</span><span class="badge ${current?'orange':''}">${status}</span></div></div></article>`; }
+function portfolioCard(title,date,img,status,current,to=undefined,note=null){
+  const link=to===undefined ? (current?'#/child/project':'#/child/portfolio') : to;
+  return `<article class="card portfolio-card ${link?'clickable':''}" ${link?`data-go="${link}"`:''}>
+    <div class="portfolio-date">${date}</div>
+    <div class="portfolio-title-row"><img src="${ROLE_IMG.child}" alt=""><strong>${title}</strong></div>
+    <div class="portfolio-art"><img src="${img}" alt="${title}"></div>
+    <div class="portfolio-body">
+      <div class="meta-row"><span>♡ ${current?24:18}</span><span>◯ ${current?6:3}</span><span class="badge ${current?'orange':''}">${status}</span></div>
+      ${note?`<div class="master-note"><b>Мастер:</b> ${note}</div>`:''}
+    </div>
+  </article>`;
+}
 
 function childProject(){
   const p=state.project;
@@ -300,27 +327,38 @@ function stepRow(s,i){ return `<div class="step ${s.status}"><div class="step-do
 function childLessons(){
   return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Уроки</div><h1 class="h1">Учимся на работе</h1></div></div><div class="lessons-grid section">
     ${lessonCard('Косяк → Урок','Трещина в детали',IMG_SRC.woodCrack,'#/child/lesson','Исправлено')}
-    ${lessonCard('Безопасность','Как проверить инструмент','./tools-sketch.svg','#/child/lesson','5 мин')}
+    ${lessonCard('Безопасность','Как проверить инструмент',IMG_SRC.birdhouseSketch,'#/child/lesson','5 мин')}
     ${lessonCard('Столярка','Разметка без спешки',IMG_SRC.birdhouseSketch,'#/child/lesson','7 мин')}
-    ${lessonCard('Мастерская','Порядок после работы','./tools-sketch.svg','#/child/lesson','4 мин')}
+    ${lessonCard('Мастерская','Порядок после работы',IMG_SRC.birdhouseSketch,'#/child/lesson','4 мин')}
   </div></div>`,{title:'Уроки',role:'child'});
 }
 function lessonCard(kicker,title,img,to,badge){ return `<article class="card lesson-card clickable" data-go="${to}"><div class="lesson-thumb"><img src="${img}" alt=""></div><div class="lesson-body"><div class="eyebrow">${kicker}</div><div class="h3" style="margin-top:3px">${title}</div><p>Короткий практический разбор из реальной работы.</p><span class="badge orange" style="display:inline-block;margin-top:7px">${badge}</span></div></article>`; }
 function childLesson(){
-  return shell(`<div class="page"><div class="hero-sketch"><img src="${IMG_SRC.woodCrack}" alt="Трещина в деревянной детали"></div><div class="section-head"><div><div class="eyebrow">Косяк → Урок</div><h1 class="h1">Трещина в детали</h1></div><span class="badge red">Исправлено</span></div>
-    <div class="card reflection section"><div class="reflection-block"><strong>Что случилось?</strong><div class="body muted">Слишком сильно затянул струбцину.</div></div><div class="reflection-block"><strong>Как исправил?</strong><div class="body muted">Заменил деталь. Теперь затягиваю постепенно и проверяю усилие.</div></div><div class="reflection-block"><strong>Что запомнил?</strong><div class="body muted">Проверяю усилие — прежде чем закручивать до конца.</div></div></div>
-    <div class="note-box section">${icon('lightbulb')}<div><strong>Ошибка — это часть пути</strong><div class="small">Мы учимся не прятать косяки, а понимать причину и исправлять её.</div></div></div>
-  </div>`,{title:'Урок',back:'#/child/lessons',role:'child',avatar:false});
+  return shell(`<div class="page"><div class="hero-sketch"><img src="${IMG_SRC.woodCrack}" alt="Трещина в деревянной детали"></div>
+    <div class="section-head"><div><h1 class="h1">Трещина в детали</h1><div class="small muted" style="margin-top:4px">10 мая 2025</div></div><span class="badge red">Исправлено</span></div>
+    <div class="card reflection section"><div class="reflection-block"><strong>Что случилось?</strong><div class="body muted">Слишком сильно затянул струбцину.</div></div><div class="reflection-block"><strong>Как исправил?</strong><div class="body muted">Заменил деталь. Теперь затягиваю постепенно.</div></div><div class="reflection-block"><strong>Что запомнил?</strong><div class="body muted">Проверяю усилие — прежде чем закручивать до конца.</div></div></div>
+    <div class="note-box section">${icon('lightbulb')}<div><strong>Ошибки — это часть пути</strong><div class="small">Мы учимся на них!</div></div></div>
+  </div>`,{title:'Косяк → Урок',back:'#/child/lessons',role:'child',avatar:false});
 }
 
+const SKILL_CHEVRONS=[
+  {icon:ICON_IMG.carpentry,label:'Столярка'},
+  {icon:ICON_IMG.electricity,label:'Электрика'},
+  {icon:ICON_IMG.tools,label:'Инструменты'}
+];
 function childAchievements(){
   const earned=state.achievements.filter(a=>a.earned).length;
-  return shell(`<div class="page"><div class="segmented"><button class="active">Шевроны</button><button data-action="achievement-stats">Статистика</button></div><div class="achievement-main"><div class="big-hex"><div class="big-hex-inner">${icon('hammer')}</div></div><div class="h2">Столяр</div><div class="small muted" style="margin-top:5px">Собрал 5 проектов из дерева</div><div class="progress-row" style="max-width:280px;margin:12px auto 0"><div class="progress-track"><div class="progress-fill" style="width:60%"></div></div><b>3 / 5</b></div></div>
-    <div class="section-head"><h2 class="h3">Мои шевроны</h2><span class="small muted">${earned}/${state.achievements.length}</span></div><div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape hex">${icon(a.icon)}</div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
+  return shell(`<div class="page"><div class="segmented"><button class="active">Шевроны</button><button data-action="achievement-stats">Статистика</button></div>
+    <div class="achievement-main"><div class="big-hex"><div class="big-hex-inner"><img src="${ICON_IMG.skills}" alt="" style="width:68px;height:68px"></div></div><div class="h2">Столяр</div><div class="small muted" style="margin-top:5px">Собрал 5 проектов из дерева</div><div class="progress-row" style="max-width:280px;margin:12px auto 0"><div class="progress-track"><div class="progress-fill" style="width:60%"></div></div><b>3 / 5</b></div></div>
+    <div class="section-head"><h2 class="h3">Мои шевроны</h2></div>
+    <div class="chevron-row">${SKILL_CHEVRONS.map(c=>`<div class="chevron-item"><span class="shape hex"><img src="${c.icon}" alt=""></span><div>${c.label}</div></div>`).join('')}</div>
+    <div class="section-head section"><h2 class="h3">Достижения</h2><span class="small muted">${earned}/${state.achievements.length}</span></div>
+
+    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ICON_IMG[a.icon]}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
   </div>`,{title:'Достижения',back:'#/child/home',role:'child',avatar:false});
 }
 function childPortfolio(){
-  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">История работ</div><h1 class="h1">Портфолио</h1></div></div><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhouseSketch,'В процессе',true)}${portfolioCard('Скворечник','20 апр 2025','./tools-sketch.svg','Готово',false)}${portfolioCard('Подставка','5 апр 2025','./wood-joint.svg','Готово',false)}</div></div>`,{title:'Портфолио',back:'#/child/home',role:'child',avatar:false});
+  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">История работ</div><h1 class="h1">Портфолио</h1></div></div><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhousePhoto,'В процессе',true)}${portfolioCard('Подставка под телефон','2 мая 2025',IMG_SRC.birdhouseSketch,'Готово',false)}${portfolioCard('Скворечник','20 апр 2025',IMG_SRC.birdhouseSketch,'Готово',false)}</div></div>`,{title:'Портфолио',back:'#/child/home',role:'child',avatar:false});
 }
 function childProfile(){
   const c=state.child;
@@ -339,23 +377,25 @@ function childCreate(){
 function parentHome(){
   const p=state.project;
   return shell(`<div class="page"><div class="hello"><div class="hello-left"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div><div class="small muted">Ребёнок</div><div class="h2">${escapeHtml(state.child.name)}</div><div class="small muted">${escapeHtml(state.child.age)} лет · ${escapeHtml(state.child.group)}</div></div></div></div>
-    <div class="dashboard-grid"><section><div class="card"><div class="section-head"><div><div class="eyebrow">Прогресс за месяц</div><div class="h2">+24%</div></div><span class="badge">Растёт</span></div><div class="bar-chart">${[26,34,42,48,63,78].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div></div>
-      <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow('project','Завершил проект','Кормушка для птиц','12 мая')}${eventRow('trophy','Получил шеврон','«Столяр»','10 мая')}${eventRow('tool','Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
+    <div class="dashboard-grid"><section><div class="card"><div class="eyebrow">Прогресс за месяц</div><div class="section-head" style="margin-top:2px"><span class="h2 positive">+24%</span></div><div class="bar-chart">${[26,34,42,48,63,78].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div></div>
+      <div class="section"><div class="section-head"><h2 class="h3">Последние события</h2></div><div class="card flat">${eventRow(ICON_IMG.skills,'Завершил проект','Кормушка для птиц','12 мая')}${eventRow(ICON_IMG.carpentry,'Получил шеврон','«Столяр»','10 мая')}${eventRow(ICON_IMG.safety,'Исправил косяк','«Трещина в детали»','8 мая')}</div></div></section>
       <section><div class="card"><div class="eyebrow">Текущий проект</div><h2 class="h2" style="margin-top:4px">${p.title}</h2><div class="hero-sketch"><img src="${IMG_SRC.birdhouseSketch}" alt=""></div><div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div><b>${p.progress}%</b></div></div><div class="section metric-row"><div class="metric"><strong>8</strong><span>занятий</span></div><div class="metric"><strong>3</strong><span>работы</span></div><div class="metric"><strong>4</strong><span>шеврона</span></div></div></section></div>
   </div>`,{title:'Вид родителя',role:'parent'});
 }
-function eventRow(ic,title,sub,date){ return `<div class="event"><div class="shape square" style="width:40px;height:40px">${icon(ic)}</div><div><strong>${title}</strong><div class="small muted">${sub}</div></div><div class="event-date">${date}</div></div>`; }
-function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ребёнка</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhouseSketch,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025','./tools-sketch.svg','Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
+function eventRow(imgSrc,title,sub,date){ return `<div class="event"><div class="shape hex" style="width:40px;height:40px"><img src="${imgSrc}" alt="" style="width:20px;height:20px"></div><div><strong>${title}</strong><div class="small muted">${sub}</div></div><div class="event-date">${date}</div></div>`; }
+function parentProjects(){ return shell(`<div class="page"><div class="eyebrow">Работы ребёнка</div><h1 class="h1" style="margin-top:4px">Проекты Миши</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','12 мая 2025',IMG_SRC.birdhousePhoto,'70%',false,null)}${portfolioCard('Скворечник','20 апр 2025',IMG_SRC.birdhouseSketch,'Готово',false,null)}</div></div>`,{title:'Проекты',role:'parent'}); }
 function parentMessages(){ return genericMessages('parent'); }
 function parentSettings(){ return shell(`<div class="page"><h1 class="h1">Настройки</h1><div class="stack section"><div class="card"><div class="h3">Уведомления</div><div class="small muted">Прогресс, новые работы и сообщения мастера.</div></div><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Настройки',role:'parent'}); }
 
 const STUDENTS=[{name:'Миша',project:'Кормушка для птиц',progress:70},{name:'Варя',project:'Полка',progress:40},{name:'Артём',project:'Ящик',progress:100},{name:'Саша',project:'Подставка',progress:66}];
 function masterHome(){
-  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Мастер</div><h1 class="h1">Группа 2</h1></div><button class="btn primary small-btn" data-action="new-task">+ Новое задание</button></div><div class="card flat section">${STUDENTS.map(s=>`<div class="student-row"><div class="avatar"></div><div><strong>${s.name}</strong><div class="small muted">${s.project}</div></div><div class="student-progress"><div class="small" style="text-align:right;font-weight:800">${s.progress}%</div><div class="progress-track"><div class="progress-fill" style="width:${s.progress}%;background:${s.progress===100?'var(--green)':'var(--orange)'}"></div></div></div></div>`).join('')}</div>
-    ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow('clipboard',escapeHtml(t.title),escapeHtml(t.group),'сейчас')).join('')}</div></div>`:''}
+  return shell(`<div class="page"><div class="section-head"><div><div class="eyebrow">Мастер</div><h1 class="h1">Группа 2</h1></div><button class="btn primary small-btn" data-action="new-task">+ Новое задание</button></div>
+    <div class="segmented"><button class="active">Группа</button><button data-go="#/master/projects">Проекты</button></div>
+    <div class="card flat section">${STUDENTS.map(s=>`<div class="student-row"><img class="avatar" src="${ROLE_IMG.child}" alt=""><div><strong>${s.name}</strong><div class="small muted">${s.project}</div></div><div class="student-progress"><div class="small" style="text-align:right;font-weight:800">${s.progress}%</div><div class="progress-track"><div class="progress-fill" style="width:${s.progress}%;background:${s.progress===100?'var(--green)':'var(--orange)'}"></div></div></div></div>`).join('')}</div>
+    ${state.customTasks.length?`<div class="section"><div class="section-head"><h2 class="h3">Созданные задания</h2></div><div class="card flat">${state.customTasks.map(t=>eventRow(ICON_IMG.tasks,escapeHtml(t.title),escapeHtml(t.group),'сейчас')).join('')}</div></div>`:''}
   </div>`,{title:'Вид мастера',role:'master'});
 }
-function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',IMG_SRC.birdhouseSketch,'В процессе',false,null)}${portfolioCard('Полка','Варя · 40%','./wood-joint.svg','В процессе',false,null)}</div></div>`,{title:'Проекты',role:'master'}); }
+function masterProjects(){ return shell(`<div class="page"><div class="eyebrow">Проекты группы</div><h1 class="h1" style="margin-top:4px">В работе</h1><div class="portfolio-grid section">${portfolioCard('Кормушка для птиц','Миша · 70%',IMG_SRC.birdhousePhoto,'В процессе',false,null)}${portfolioCard('Полка','Варя · 40%',IMG_SRC.birdhouseSketch,'В процессе',false,null)}</div></div>`,{title:'Проекты',role:'master'}); }
 function masterMessages(){ return genericMessages('master'); }
 function masterMore(){ return shell(`<div class="page"><h1 class="h1">Ещё</h1><div class="stack section"><button class="btn secondary" data-action="new-task">Создать задание</button><button class="btn secondary" data-action="export-demo">Экспорт демо-данных</button><button class="btn ghost" data-action="logout">Выйти</button></div></div>`,{title:'Ещё',role:'master'}); }
 function genericMessages(role){ return shell(`<div class="page"><div class="eyebrow">Сообщения</div><h1 class="h1" style="margin-top:4px">Мастерская на связи</h1><div class="card section"><div class="event"><div class="avatar"></div><div><strong>${role==='master'?'Родители группы 2':'Мастер Алексей'}</strong><div class="small muted">Завтра занятие по расписанию, 16:00.</div></div><div class="event-date">17:42</div></div></div><div class="note-box section">${icon('message')}<div><strong>Демо-раздел</strong><div class="small">Реальные сообщения подключаются вместе с серверной частью.</div></div></div></div>`,{title:'Сообщения',role}); }
@@ -419,7 +459,7 @@ function modal(html){
 }
 function showInstallModal(){
   const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent); const isAndroid=/android/i.test(navigator.userAgent);
-  modal(`<button class="icon-btn modal-close" data-close-modal>${icon('plus').replace('5v14M5 12h14','12 5v14M5 12h14')}</button><div class="eyebrow">Установка</div><h2 class="h2">Добавить «Гараж» как приложение</h2><div class="body muted" style="margin-top:10px">${isiOS?'На iPhone/iPad: откройте сайт в Safari → «Поделиться» → «На экран Домой» → «Добавить».':isAndroid?'На Android: откройте сайт в Chrome → меню ⋮ → «Установить приложение» или «Добавить на главный экран».':'На телефоне откройте сайт в Safari (iPhone/iPad) или Chrome (Android) и выберите добавление на главный экран.'}</div>`);
+  modal(`<button class="icon-btn modal-close" data-close-modal>${icon('close')}</button><div class="eyebrow">Установка</div><h2 class="h2">Добавить «Гараж» как приложение</h2><div class="body muted" style="margin-top:10px">${isiOS?'На iPhone/iPad: откройте сайт в Safari → «Поделиться» → «На экран Домой» → «Добавить».':isAndroid?'На Android: откройте сайт в Chrome → меню ⋮ → «Установить приложение» или «Добавить на главный экран».':'На телефоне откройте сайт в Safari (iPhone/iPad) или Chrome (Android) и выберите добавление на главный экран.'}</div>`);
 }
 function showNewTaskModal(){
   const m=modal(`<div class="eyebrow">Мастер</div><h2 class="h2">Новое задание</h2><form id="newTaskForm" class="stack" style="margin-top:14px"><div class="field"><label>Название</label><input class="input" id="taskTitle" placeholder="Например: отшлифовать кромки" required></div><div class="field"><label>Группа</label><select class="input" id="taskGroup"><option>Группа 2</option><option>Группа 1</option></select></div><button class="btn primary" type="submit">Создать задание</button><button class="btn secondary" type="button" data-close-modal>Отмена</button></form>`);
