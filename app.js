@@ -31,11 +31,58 @@ const DEFAULT_STATE = {
 };
 
 const STORAGE_KEY='garazh2-state-v2';
+const LEGACY_STORAGE_KEY='garazh2-state-v1';
+
+function pickKnownKeys(defaults, raw){
+  if(!raw || typeof raw!=='object') return structuredClone(defaults);
+  const out=structuredClone(defaults);
+  for(const k of Object.keys(defaults)){ if(raw[k]!==undefined) out[k]=raw[k]; }
+  return out;
+}
+function defaultNameForRole(role){ return role==='child'?'Миша':role==='parent'?'Родитель':role==='master'?'Мастер':''; }
+function migrateAchievements(oldAch){
+  if(!Array.isArray(oldAch)) return structuredClone(DEFAULT_STATE.achievements);
+  return DEFAULT_STATE.achievements.map(def=>{
+    const old=oldAch.find(a=>a && typeof a==='object' && a.id===def.id);
+    if(!old) return {...def};
+    return { ...def, earned: typeof old.earned==='boolean'?old.earned:def.earned, date: ('date' in old)?old.date:def.date };
+  });
+}
+function migrateFromLegacy(raw){
+  const migrated=structuredClone(DEFAULT_STATE);
+  if(!raw || typeof raw!=='object') return migrated;
+  if(Array.isArray(raw.profiles)) migrated.profiles=raw.profiles;
+  if(Array.isArray(raw.customTasks)) migrated.customTasks=raw.customTasks;
+  if(raw.project && typeof raw.project==='object') migrated.project=pickKnownKeys(DEFAULT_STATE.project, raw.project);
+  if(raw.child && typeof raw.child==='object') migrated.child=pickKnownKeys(DEFAULT_STATE.child, raw.child);
+  if(Array.isArray(raw.steps)) migrated.steps=raw.steps;
+  if(Array.isArray(raw.tasks)) migrated.tasks=raw.tasks;
+  if(raw.session && typeof raw.session==='object' && ['child','parent','master'].includes(raw.session.role)){
+    migrated.session={role:raw.session.role, name:raw.session.name||defaultNameForRole(raw.session.role)};
+  }
+  if(['child','parent','master'].includes(raw.role)) migrated.role=raw.role;
+  // achievements changed shape (icon field now points at ICON_IMG keys) - never copy the old array
+  // as-is, only carry over earned/date per matching id onto the current default template.
+  migrated.achievements=migrateAchievements(raw.achievements);
+  return migrated;
+}
 function loadState(){
-  try{
-    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
-    return saved ? deepMerge(structuredClone(DEFAULT_STATE), saved) : structuredClone(DEFAULT_STATE);
-  }catch(e){ console.warn(e); return structuredClone(DEFAULT_STATE); }
+  const savedV2=localStorage.getItem(STORAGE_KEY);
+  if(savedV2!==null){
+    try{
+      const parsed=JSON.parse(savedV2);
+      return parsed && typeof parsed==='object' ? deepMerge(structuredClone(DEFAULT_STATE), parsed) : structuredClone(DEFAULT_STATE);
+    }catch(e){ console.warn('garazh: v2 state corrupted, using defaults',e); return structuredClone(DEFAULT_STATE); }
+  }
+  const savedV1=localStorage.getItem(LEGACY_STORAGE_KEY);
+  if(savedV1!==null){
+    try{
+      const migrated=migrateFromLegacy(JSON.parse(savedV1));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated)); // v1 is left untouched as a backup
+      return migrated;
+    }catch(e){ console.warn('garazh: v1 migration failed, using defaults',e); return structuredClone(DEFAULT_STATE); }
+  }
+  return structuredClone(DEFAULT_STATE);
 }
 function deepMerge(base, patch){
   if(!patch || typeof patch!=='object') return base;
