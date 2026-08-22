@@ -7,10 +7,10 @@
 03_ICONS/CIRCLE_PERSONAL/icon-achievements.png,icon,achievements,APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-events.png,icon,events,APPROVED
 03_ICONS/CIRCLE_PERSONAL/icon-help.png,icon,help,APPROVED
-03_ICONS/HEX_SKILLS/icon-carpentry.png,icon,carpentry,APPROVED
+03_ICONS/HEX_SKILLS/icon-carpentry.png,icon,carpentry,EXTRACTED_FROM_ICON_SYSTEM_SHEET
 03_ICONS/HEX_SKILLS/icon-electricity.png,icon,electricity,APPROVED
-03_ICONS/HEX_SKILLS/icon-safety.png,icon,safety,APPROVED
-03_ICONS/HEX_SKILLS/icon-tools.png,icon,tools,APPROVED
+03_ICONS/HEX_SKILLS/icon-safety.png,icon,safety,EXTRACTED_FROM_ICON_SYSTEM_SHEET
+03_ICONS/HEX_SKILLS/icon-tools.png,icon,tools,EXTRACTED_FROM_ICON_SYSTEM_SHEET
 03_ICONS/SQUARE_WORK/icon-projects.png,icon,projects,APPROVED
 03_ICONS/SQUARE_WORK/icon-tasks.png,icon,tasks,APPROVED
 03_ICONS/SQUARE_WORK/icon-lessons.png,icon,lessons,APPROVED

@@ -30,12 +30,59 @@ const DEFAULT_STATE = {
   customTasks: []
 };
 
-const STORAGE_KEY='garazh2-state-v1';
+const STORAGE_KEY='garazh2-state-v2';
+const LEGACY_STORAGE_KEY='garazh2-state-v1';
+
+function pickKnownKeys(defaults, raw){
+  if(!raw || typeof raw!=='object') return structuredClone(defaults);
+  const out=structuredClone(defaults);
+  for(const k of Object.keys(defaults)){ if(raw[k]!==undefined) out[k]=raw[k]; }
+  return out;
+}
+function defaultNameForRole(role){ return role==='child'?'Миша':role==='parent'?'Родитель':role==='master'?'Мастер':''; }
+function migrateAchievements(oldAch){
+  if(!Array.isArray(oldAch)) return structuredClone(DEFAULT_STATE.achievements);
+  return DEFAULT_STATE.achievements.map(def=>{
+    const old=oldAch.find(a=>a && typeof a==='object' && a.id===def.id);
+    if(!old) return {...def};
+    return { ...def, earned: typeof old.earned==='boolean'?old.earned:def.earned, date: ('date' in old)?old.date:def.date };
+  });
+}
+function migrateFromLegacy(raw){
+  const migrated=structuredClone(DEFAULT_STATE);
+  if(!raw || typeof raw!=='object') return migrated;
+  if(Array.isArray(raw.profiles)) migrated.profiles=raw.profiles;
+  if(Array.isArray(raw.customTasks)) migrated.customTasks=raw.customTasks;
+  if(raw.project && typeof raw.project==='object') migrated.project=pickKnownKeys(DEFAULT_STATE.project, raw.project);
+  if(raw.child && typeof raw.child==='object') migrated.child=pickKnownKeys(DEFAULT_STATE.child, raw.child);
+  if(Array.isArray(raw.steps)) migrated.steps=raw.steps;
+  if(Array.isArray(raw.tasks)) migrated.tasks=raw.tasks;
+  if(raw.session && typeof raw.session==='object' && ['child','parent','master'].includes(raw.session.role)){
+    migrated.session={role:raw.session.role, name:raw.session.name||defaultNameForRole(raw.session.role)};
+  }
+  if(['child','parent','master'].includes(raw.role)) migrated.role=raw.role;
+  // achievements changed shape (icon field now points at ICON_IMG keys) - never copy the old array
+  // as-is, only carry over earned/date per matching id onto the current default template.
+  migrated.achievements=migrateAchievements(raw.achievements);
+  return migrated;
+}
 function loadState(){
-  try{
-    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
-    return saved ? deepMerge(structuredClone(DEFAULT_STATE), saved) : structuredClone(DEFAULT_STATE);
-  }catch(e){ console.warn(e); return structuredClone(DEFAULT_STATE); }
+  const savedV2=localStorage.getItem(STORAGE_KEY);
+  if(savedV2!==null){
+    try{
+      const parsed=JSON.parse(savedV2);
+      return parsed && typeof parsed==='object' ? deepMerge(structuredClone(DEFAULT_STATE), parsed) : structuredClone(DEFAULT_STATE);
+    }catch(e){ console.warn('garazh: v2 state corrupted, using defaults',e); return structuredClone(DEFAULT_STATE); }
+  }
+  const savedV1=localStorage.getItem(LEGACY_STORAGE_KEY);
+  if(savedV1!==null){
+    try{
+      const migrated=migrateFromLegacy(JSON.parse(savedV1));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated)); // v1 is left untouched as a backup
+      return migrated;
+    }catch(e){ console.warn('garazh: v1 migration failed, using defaults',e); return structuredClone(DEFAULT_STATE); }
+  }
+  return structuredClone(DEFAULT_STATE);
 }
 function deepMerge(base, patch){
   if(!patch || typeof patch!=='object') return base;
@@ -222,13 +269,13 @@ function welcomePage(){
     </div>
     <div class="eyebrow" style="text-align:center;margin-top:20px;color:#77716b">Выберите роль для демо</div>
     <div class="roles" id="demoRoles">
-      ${roleCard('child','Ребёнок',true)}${roleCard('parent','Родитель')}${roleCard('master','Мастер')}
+      ${roleCard('child','Ребёнок')}${roleCard('parent','Родитель')}${roleCard('master','Мастер')}
     </div>
     <button class="btn ghost" style="width:100%;margin-top:10px" data-action="demo-enter">Открыть демо</button>
     <div class="auth-links"><button class="link-btn" data-go="#/register">Создать профиль</button><button class="link-btn" data-action="install-help" style="display:flex;align-items:center;gap:5px"><img src="${ICON_IMG.help}" alt="" style="width:16px;height:16px">Как установить</button></div>
   </section></main>`;
 }
-function roleCard(role,label,selected=false){ return `<button class="role-card ${selected?'selected':''}" data-role="${role}"><img class="role-face" src="${ROLE_IMG[role]}" alt=""><strong>${label}</strong></button>`; }
+function roleCard(role,label){ const selected=state.role===role; return `<button class="role-card ${selected?'selected':''}" data-role="${role}"><img class="role-face" src="${ROLE_IMG[role]}" alt=""><strong>${label}</strong></button>`; }
 function loginPage(){
   return `<main class="auth-page"><section class="auth-card page"><button class="icon-btn" data-go="#/welcome">${icon('back')}</button>
     <div class="auth-intro"><div class="eyebrow">Вход по коду</div><h1 class="h2" style="margin-top:5px">Введите код мастерской</h1><p class="body">Для теста подойдёт код <b>1234</b>.</p></div>
@@ -354,7 +401,7 @@ function childAchievements(){
     <div class="chevron-row">${SKILL_CHEVRONS.map(c=>`<div class="chevron-item"><span class="shape hex"><img src="${c.icon}" alt=""></span><div>${c.label}</div></div>`).join('')}</div>
     <div class="section-head section"><h2 class="h3">Достижения</h2><span class="small muted">${earned}/${state.achievements.length}</span></div>
 
-    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ICON_IMG[a.icon]}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
+    <div class="badge-grid">${state.achievements.map(a=>`<div class="badge-item ${a.earned?'':'locked'}"><div class="shape circle"><img src="${ICON_IMG[a.icon]||ICON_IMG.achievements}" alt=""></div><div>${a.name}</div><div class="muted">${a.date||'ещё впереди'}</div></div>`).join('')}</div>
   </div>`,{title:'Достижения',back:'#/child/home',role:'child',avatar:false});
 }
 function childPortfolio(){
@@ -428,7 +475,7 @@ function onRegister(e){
 }
 async function handleAction(action,el){
   if(action==='demo-enter'){
-    const role=$('[data-role].selected')?.dataset.role||'child'; state.session={role,name:role==='child'?'Миша':role==='parent'?'Родитель':'Мастер'}; state.role=role; save(); go(`#/${role}/home`); return;
+    const role=state.role||'child'; state.session={role,name:role==='child'?'Миша':role==='parent'?'Родитель':'Мастер'}; save(); go(`#/${role}/home`); return;
   }
   if(action==='logout'){ state.session=null; save(); go('#/welcome'); return; }
   if(action==='notifications'){ toast('Новых уведомлений: 1'); return; }
