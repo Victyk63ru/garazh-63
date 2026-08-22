@@ -1,4 +1,4 @@
-const CACHE='garazh-v3-2026-08-22';
+const CACHE='garazh-v3.1-2026-08-22-task-icons';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.json',
   './icon-192.png','./icon-512.png',
