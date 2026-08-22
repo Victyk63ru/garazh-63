@@ -148,6 +148,7 @@ const ICON_IMG={
   events:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-events.png`,
   help:`${A}/03_ICONS/CIRCLE_PERSONAL/icon-help.png`,
   skills:`${A}/03_ICONS/HEX_SKILLS/icon-tools.png`,
+  skillsHome:`${A}/03_ICONS/HEX_SKILLS/icon-skills.png`,
   carpentry:`${A}/03_ICONS/HEX_SKILLS/icon-carpentry.png`,
   electricity:`${A}/03_ICONS/HEX_SKILLS/icon-electricity.png`,
   safety:`${A}/03_ICONS/HEX_SKILLS/icon-safety.png`,
@@ -348,7 +349,7 @@ function childHome(){
         <div class="section-head"><h2 class="h3">Мастерская</h2><button class="link-btn" data-go="#/child/portfolio">Портфолио</button></div>
         <div class="quick-grid">
           ${quickImg(ICON_IMG.projects,'Проекты','#/child/projects')}
-          ${quickImg(ICON_IMG.skills,'Навыки','#/child/achievements')}
+          ${quickImg(ICON_IMG.skillsHome,'Навыки','#/child/achievements')}
           ${quickImg(ICON_IMG.achievements,'Достижения','#/child/achievements')}
           ${quickImg(ICON_IMG.tasks,'Задания','#/child/project')}
           ${quickImg(ICON_IMG.lessons,'Уроки','#/child/lessons')}
